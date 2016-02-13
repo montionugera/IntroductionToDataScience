@@ -1,0 +1,1 @@
+ Now we've got a plot here, and I want you to take a new perspective on it. Take your plot and stretch it out horizontally as much as you can in r. Make the horizontal axis be longer than the vertical axis. What do you notice?

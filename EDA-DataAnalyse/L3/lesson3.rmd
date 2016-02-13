@@ -1,0 +1,398 @@
+pseudo facebook Data
+```{r}
+getwd()
+setwd('~/WorkSpace/Udemy-Datascience/IntroductionToDataScience/EDA-DataAnalyse/L3')
+list.files()
+
+pf <- read.csv('pseudo_facebook.tsv',sep = '\t')
+pf2 <- read.delim('pseudo_facebook.tsv')
+names(pf)
+```
+
+Histogram of Users' Birthdays
+```{r}
+install.packages("ggplot2", dep = TRUE)
+
+install.packages('ggthemes', dependencies = TRUE)
+```
+
+Estimate Audience size
+```{r}
+library(ggplot2)
+theme_set(theme_minimal(24))
+qplot(x = dob_day,data = pf) + stat_count(width = 0.5) + scale_x_discrete(breaks = 1:31)
+
+ggplot(aes(x = dob_day), data = pf) + 
+  stat_count(width = 0.5) + 
+  scale_x_discrete(breaks = 1:31)
+```
+
+```{r}
+ggplot(data = pf, aes(x = dob_day)) + 
+  scale_x_discrete(breaks = 1:31) +
+  stat_count(width = 0.5) + 
+  facet_wrap(~dob_month,ncol=3)
+```
+
+## Friend Count
+```{r}
+qplot(x = friend_count, data = pf)
+qplot(x = friend_count, data = pf, xlim= c(0,1000))
+
+ggplot(data = pf, aes(x = friend_count))+geom_histogram()
+
+less2000fr_records = nrow(subset(pf,friend_count < 2000 ))
+pf_records = nrow(pf)
+percent_less2000 = less2000fr_records*100/pf_records
+
+ggplot(data = pf, aes(x = friend_count) )+geom_histogram()+ 
+  scale_x_continuous(limits = c(0,1000))
+
+qplot(x = friend_count, data = pf, xlim= c(0,1000))
+qplot(x = friend_count, data = pf, xlim= c(0,1000),binwidth = 25)
+
+qplot(x = friend_count, data = pf, xlim= c(0,1000),binwidth = 200)
+
+qplot(x = friend_count, data = pf, xlim= c(0,1000),binwidth = 25) + scale_x_continuous(limits = c(0, 1000),breaks = seq(0,1000,50))
+```
+Omitting NA Observations
+
+```{r}
+qplot(x = friend_count, data = pf, xlim= c(0,1000),binwidth = 25,xlab = seq(0,1000,50)) + facet_wrap(~gender)
+
+qplot(x = friend_count, data = subset(pf, !is.na(gender)), xlim= c(0,1000),binwidth = 25,xlab = seq(0,1000,50)) + facet_wrap(~gender)
+
+qplot(x = friend_count, data = na.omit(pf), xlim= c(0,1000),binwidth = 25,xlab = seq(0,1000,50)) + facet_wrap(~gender)
+```
+
+ Statistics 'by' Gender
+ 
+ 
+```{r}
+table(pf$gender)
+summary_gender_friend_count<-by(pf$friend_count,pf$gender,summary)
+summary_gender_friend_count
+names(summary_gender_friend_count)
+```
+Which gender on average has more friends?
+```{r}
+median_male = summary_gender_friend_count$male[3]
+median_female = summary_gender_friend_count$female[3]
+median_male
+median_female
+```
+
+What's the diff between the median friend count for women and men?
+```{r}
+names(median_male)
+median_male_val = summary_gender_friend_count$male[3][[1]]
+median_female_val = summary_gender_friend_count$female[3][[1]]
+median_female_val - median_male_val
+```
+Tenure
+```{r}
+ggplot(aes(x = tenure), data = pf) + geom_histogram( binwidth = 30, color = 'black', fill = '#099DD9')
+ggplot(aes(x = tenure/365), data = pf) + geom_histogram( binwidth = .25, color = 'black', fill = '#F79420')
+
+ggplot(aes(x = tenure/365), data = pf) + geom_histogram( binwidth = .25, color = 'black', fill = '#F79420') + scale_x_continuous(breaks = seq(1,7,1), lim = c(0,7))
+
+qplot( x = tenure/365, data = pf, binwidth =.25, color = I('black'), fill = I('#F79420') ) + scale_x_continuous(breaks = seq(1,7,1), lim = c(0,7)) + xlab('Number of years using Facebook') + ylab('Number of users in sample')
+```
+
+User.ages
+```{r}
+qplot( x = age, data = pf, binwidth =5, color = I('black'), fill = I('#F79420') ) + scale_x_continuous(breaks = seq(0,120,5), lim = c(0,150)) + xlab('Age of user using Facebook') + ylab('Number of users in sample')
+
+qplot( x = age, data = pf, binwidth =1, color = I('black'), fill = I('#F79420') ) + scale_x_continuous(breaks = seq(0,120,5), lim = c(0,120)) + xlab('Age of user using Facebook') + ylab('Number of users in sample')
+```
+
+Transforming data
+
+```{r}
+qplot(x = friend_count ,data = pf)
+summary(pf$friend_count)
+summary(log10(pf$friend_count))
+summary(log10(pf$friend_count + 1))
+summary(sqrt(pf$friend_count + 1))
+
+install.packages('gridExtra')
+library(gridExtra)
+graph1 <- qplot(x = friend_count ,data = pf) +scale_y_log10()
+graph2 <- qplot(x = friend_count ,data = pf) +scale_y_sqrt()
+grid.arrange( graph1, graph2, ncol=2)
+
+graph0 <- qplot(x = friend_count ,data = pf) 
+graph1 <- qplot(x = log10(friend_count+1) ,data = pf) 
+graph2 <- qplot(x = sqrt(friend_count) ,data = pf) +scale_y_sqrt()
+grid.arrange( graph0, graph1, graph2)
+
+graph1 <- graph0 +scale_x_log10()
+```
+
+ #### Frequency Polygons
+
+```{r}
+qplot(x = friend_count ,data = subset(pf, !is.na(gender) ), binwidth = 10 )  + scale_x_continuous(lim = c(0,1000), breaks = seq(0,1000,50)) + facet_wrap(~gender)
+
+qplot(x = friend_count ,data = subset(pf, !is.na(gender) ), binwidth = 10 ,geom = 'freqpoly', color = gender)  + scale_x_continuous(lim = c(0,1000), breaks = seq(0,1000,50))
+
+qplot(x = friend_count , y = ..count../sum(..count..),
+      data = subset(pf, !is.na(gender) ), binwidth = 10 ,
+      xlab = 'Friend Count sqrt',
+      ylab = 'Proportion of Users with that friend count sqrt',
+      geom = 'freqpoly', color = gender) +scale_x_sqrt() +
+      scale_x_continuous(lim = c(0,71), breaks = seq(0,71,10))
+
+summary(pf$friend_count)
+summary(log10(pf$friend_count+1))
+summary(sqrt(pf$friend_count))
+
+
+summary(pf$www_likes)
+summary(log10(pf$www_likes+1))
+summary(sqrt(pf$www_likes))
+
+qplot(x = www_likes , 
+      data = subset(pf, !is.na(gender) ) ,
+      xlab = 'Like Count',
+      ylab = 'Proportion of Users with that Like count sqrt',
+      geom = 'freqpoly', color = gender) +
+      scale_x_continuous()+scale_x_log10()
+
+sum_wwlike <- by(pf$www_likes,pf$gender, sum)
+
+sum_wwlike['female'][[1]] - sum_wwlike['male'][[1]]
+
+
+```
+
+### Box Plots
+```{r}
+summary(subset(subset(pf, !is.na(gender)), friend_count  < 1000 )$friend_count)
+friend_count_less1000 = subset(subset(pf, !is.na(gender)), friend_count  < 1000 )
+qplot(x = gender,y = friend_count ,
+      data = friend_count_less1000,
+      geom = 'boxplot') 
+
+qplot(x = gender,y = friend_count ,
+      data = subset(pf, !is.na(gender)), ylim = c(0,1000),
+      geom = 'boxplot') 
+
+
+qplot(x = gender,y = friend_count ,
+      data = subset(pf, !is.na(gender)),
+      geom = 'boxplot') + scale_y_continuous(limits = c(0,1000))
+
+qplot(x = gender,y = friend_count ,
+      data = subset(pf, !is.na(gender)),
+      geom = 'boxplot') + coord_cartesian(ylim = c(0,250))
+by(pf$friend_count, pf$gender, summary)
+```
+Getting Logiccal
+```{r}
+pf$mobile_check_in <- NA
+pf$mobile_check_in <- ifelse(pf$mobile_likes >0 , 1 , 0)
+pf$mobile_check_in <- factor(pf$mobile_check_in)
+by(pf$mobile_check_in, pf$gender, summary)
+
+sum_mobile_cin = summary(pf$mobile_check_in)
+sum_mobile_cin[2][[1]] / (sum_mobile_cin[1][[1]] + sum_mobile_cin[2][[1]])
+
+```
+
+### Problem Set 3 
+```{r}
+library(ggplot2)
+data(diamonds)
+summary(diamonds)
+names(diamonds)
+diamonds
+is.factor(diamonds$cut)
+is.factor(diamonds$color)
+is.factor(diamonds$clarity)
+?diamonds
+qplot(x = price, data = diamonds)
+summary(diamonds$price)
+
+nrow(subset(diamonds, price < 500))
+nrow(subset(diamonds, price < 250))
+nrow(subset(diamonds, price >= 15000))
+
+### http://www.cookbook-r.com/Graphs/Facets_(ggplot2)
+
+qplot(x = price, data = diamonds , binwidth = 1000 )+scale_x_continuous(lim = c(0,15000), breaks = seq(0,15000,2500))+ facet_wrap(~cut, scales="free_y") 
+
+ggsave('priceHistogram.png')
+
+by(diamonds$price, diamonds$cut, summary)
+subset(diamonds, !is.na(diamonds$price))
+
+summary(log10(diamonds$price))
+
+qplot(x = price, data = diamonds , binwidth = 0.03) + scale_x_log10()+ facet_wrap(~cut, scales="free_y") 
+
+qplot(x = cut,y = price ,data =diamonds,geom = 'boxplot')+scale_y_continuous(lim = c(0,6000))
+ggsave('priceHistogram_cut.png')
+
+qplot(x = color,y = price ,data =diamonds,geom = 'boxplot')+scale_y_continuous(lim = c(0,6000))
+ggsave('priceHistogram_color.png')
+
+qplot(x = clarity,y = price ,data =diamonds,geom = 'boxplot')+scale_y_continuous(lim = c(0,6000))
+ggsave('priceHistogram_clarity.png')
+
+
+names(diamonds)
+by(diamonds$price, diamonds$color, summary)
+
+diamon_j = subset(diamonds,diamonds$color == 'J')
+diamon_d = subset(diamonds,diamonds$color == 'D')
+summary(diamon_j$price)
+summary(diamon_d$price)
+IQR(diamon_j$price)
+IQR(diamon_d$price)
+?diamonds
+
+diamonds$price_per_carat <- NA
+diamonds$price_per_carat <- diamonds$price / diamonds$carat 
+by(pf$mobile_check_in, pf$gender, summary)
+
+qplot(x = color,y = price_per_carat ,data =diamonds,geom = 'boxplot')
+ggsave('price_per_carat_Histogram_color.png')
+
+
+summary(diamon_d$carat)
+qplot(x = carat , data = diamonds , binwidth = 0.01 ,geom = 'freqpoly')  + scale_x_continuous(lim = c(0,1.1), breaks = seq(0,3.4,0.1))+
+  scale_y_continuous(lim = c(0,9000), breaks = seq(0,9000,1000))
+
+table(diamonds$carat)
+```
+
+# The Gapminder website contains over 500 data sets with information about
+# the world's population. Your task is to download a data set of your choice
+# and create 2-5 plots that make use of the techniques from Lesson 3.
+
+```{r}
+install.packages("xlsx", dep = T)      # If you have not installed it before
+install.packages("dplyr", dep = T) 
+install.packages("tidyr", dep = T) 
+
+library(xlsx)
+library(dplyr)
+library(tidyr)
+# Load Data
+# http://data.worldbank.org/indicator/NY.GDP.MKTP.KD
+gdp_data <- read.xlsx("indicator GDP at market prices, constant 2000 US$ (WB estimates) .xls.xlsx", sheetIndex = 1)
+summary(gdp_data)
+
+#data wranging
+dplyr::tbl_df(gdp_data)
+data_parse <- tidyr::gather(gdp_data,"year","gdp",2:53)
+names(data_parse)
+names(data_parse)[1]<-"country"
+data_parse <- within(data_parse, { year=as.POSIXct(year, format = "X%Y") })
+data_parse$year =  as.numeric(format(data_parse$year, "%Y"))
+data_parse$year_factor  <- factor(data_parse$year)
+# Plot gdp histogram in 2011
+# Q What kind of gdp distribution is it?
+qplot(x = gdp, data = subset(data_parse,!is.na(gdp) & year == 2010),
+      xlab = 'GDP',
+      ylab = 'Country Count', 
+      color = I('black'), fill = I('#099DD9') )
+ggsave('gdp_histogram_2010.png')
+
+qplot(x = gdp, data = subset(data_parse,!is.na(gdp) & year == 2010),
+      xlab = 'GDP',
+      ylab = 'Country Count', 
+      color = I('black'), fill = I('#F79420') )+ scale_x_log10()
+ggsave('log10_gdp_histogram_2010.png')
+
+# ANS : The result show that the data's distribution of GDP scale in 2010 is normal on logarithmic scale.
+
+# Now I am focusing on  United States India Egypt Germany Australia United Kingdom China and Japan to determine Which one are tentative to be much higher GDP in next few years
+summary(data_parse$country)
+data_parse_f2 = subset(data_parse,
+    country == "United States" |
+    country == "India" | 
+    country == "Egypt" | 
+    country == "Germany" | 
+    country == "Australia" | 
+    country == "United Kingdom" |
+    country == "China" | 
+    country == "Japan")
+# Q Which country are tentative to has high GDP in after 2010
+qplot(x = year, y = gdp, data = subset(data_parse_f2,!is.na(gdp)),
+      xlab = 'Year', geom = 'line', color = country) + scale_y_log10()
+ggsave('log10_gdp_line_history_compare.png')
+# ANS: You can see that China's plot is very impressive the slope is obviously higher than all of the selected countries.
+
+
+summary(log10(data_parse$gdp))
+
+# Does the overall gdp are continuously increasing.
+selected_data = subset(data_parse,data_parse$year > 2000 & data_parse$year < 2011 & !is.na(data_parse$gdp))
+qplot(x = year_factor, y= log10(gdp), data = selected_data,
+      xlab = 'Year',
+      geom = 'boxplot')
+
+qplot(x = year_factor, y= log10(gdp), data = selected_data,
+      xlab = 'Year',
+      geom = 'boxplot')+ coord_cartesian(ylim = c(9,11))
+ggsave('log10_gdp_boxplot_trend.png')
+
+by(log10(selected_data$gdp), selected_data$year_factor, summary)
+# ANS Yes.
+#
+```
+Exploring Your Friends' Birthdays
+```{r}
+getwd()
+setwd('~/WorkSpace/Udemy-Datascience/IntroductionToDataScience/EDA-DataAnalyse/L3')
+library(ggplot2)
+
+birthdayData <- read.csv("birthdaysExample.csv")
+birthdayData$dates
+birthdayData$date_obj <- strptime(birthdayData$dates,"%m/%d/%y")
+help(as.Date)
+
+birthdayData$dob_month <- factor(format(birthdayData$date_obj, "%b"))
+birthdayData$dob_day <- as.numeric(format(birthdayData$date_obj, "%d"))
+birthdayData$dob_month
+birthdayData$dob_month <- ordered(birthdayData$dob_month, levels = c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"))
+
+# How many people share your birthday? Do you know them?
+# (Reserve time with them or save money to buy them a gift!)
+
+# Which month contains the most number of birthdays?
+# How many birthdays are in each month?
+
+qplot(x = dob_month , data = birthdayData)
+
+summary(birthdayData$dob_month)
+ggsave('birthday_month_freq.png')
+# ANS: March contains the most number of birthday.
+# Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec 
+# 89  79  98  81  72  93  86  91  96  89  87  72 
+
+
+# Which day of the year has the most number of birthdays?
+ggplot(data = birthdayData, aes(x = dob_day)) + 
+  scale_x_discrete(breaks = 1:31) +
+  stat_count(width = 0.5) +  facet_wrap(~dob_month)
+summary(birthdayData$date_obj)
+#                 Min.               1st Qu.                Median                  Mean 
+#"2014-01-01 00:00:00" "2014-03-28 00:00:00" "2014-07-02 00:00:00" "2014-06-30 09:59:25" 
+#              3rd Qu.                  Max. 
+#"2014-09-28 00:00:00" "2014-12-31 00:00:00" 
+ggsave('birthday_day_freq.png')
+
+# ANS : Follow the plot, 6-Feb, 22-May and 16-July have the most number of birthday (8).
+help(qplot)
+
+
+# Do you have at least 365 friends that have birthdays on everyday
+# of the year?
+#ANS : Follow the plot, No.
+
+
+```
+
