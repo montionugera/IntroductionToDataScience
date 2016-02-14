@@ -13,10 +13,22 @@ Notes:
 
 ### Third Qualitative Variable
 Notes:
+```{r}
+
+library(ggplot2)
+setwd('~/WorkSpace/Udemy-Datascience/IntroductionToDataScience/EDA-DataAnalyse/L5')
+pf <- read.csv('pseudo_facebook.tsv',sep = '\t')
+suppressMessages(library(dplyr))
+
+```
 
 ```{r Third Qualitative Variable}
+hasgender_pf <- subset(pf, !is.na(gender))
+hasgender_pf
+ggplot(aes(x = friend_count),data = hasgender_pf)+ facet_wrap(~gender)
 ggplot(aes(x = gender, y = age),
-       data = subset(pf, !is.na(gender))) + geom_histogram()
+       data = hasgender_pf) + geom_boxplot()
+
 ```
 
 ***
