@@ -25,9 +25,29 @@ suppressMessages(library(dplyr))
 ```{r Third Qualitative Variable}
 hasgender_pf <- subset(pf, !is.na(gender))
 hasgender_pf
-ggplot(aes(x = friend_count),data = hasgender_pf)+ facet_wrap(~gender)
+ggplot(aes(x = friend_count),data = hasgender_pf)+ facet_wrap(~gender) + geom_histogram()
+summary(pf$friend_count)
+
+by(pf$age,pf$gender, summary)
+
 ggplot(aes(x = gender, y = age),
-       data = hasgender_pf) + geom_boxplot()
+       data = hasgender_pf) + geom_boxplot() 
+ggplot(aes(x = gender, y = age),
+       data = hasgender_pf) + geom_boxplot() + stat_summary(fun.y = mean, geom = 'point', shape = 4)
+?aes #aesthetic mappings 
+ggplot(aes(x = age,y=friend_count),data = hasgender_pf)+ 
+  geom_line(aes(color = gender) ,stat = 'summary', fun.y = 'median')
+
+library(dplyr)
+hasgender_pf <- subset(pf, !is.na(gender))
+pf_group_age_gender <- group_by(hasgender_pf,age,gender)
+pf.fc_by_age_gender <- summarise(pf_group_age_gender,
+          mean_friend_count = mean(friend_count),
+          median_friend_count = median(friend_count),
+          n = n() ) #number of user each group
+pf.fc_by_age_gender <- arrange(pf.fc_by_age_gender, age)
+pf.fc_by_age_gender <- ungroup(pf.fc_by_age_gender)
+
 
 ```
 
@@ -38,6 +58,8 @@ Notes:
 
 ```{r Plotting Conditional Summaries}
 
+ggplot(aes(x = age, y = mean_friend_count),
+       data = pf.fc_by_age_gender) +geom_line( aes(color = gender))
 ```
 
 ***
@@ -51,6 +73,11 @@ Notes:
 Notes:
 
 ***
+```{r}
+library(tidyr)
+tidyr::spread(subset(pf.fc_by_age_gender, select = c('gender', 'age', 'median_friend_count')), gender, median_friend_count)
+
+```
 
 ### Reshaping Data
 Notes:
@@ -58,6 +85,10 @@ Notes:
 ```{r}
 install.packages('reshape2')
 library(reshape2)
+pf.fc_by_age_gender.wide <- dcast(pf.fc_by_age_gender,
+                                  age ~ gender,
+                                  value.var = 'median_friend_count')
+head(pf.fc_by_age_gender.wide)
 ```
 
 
@@ -67,7 +98,18 @@ library(reshape2)
 Notes:
 
 ```{r Ratio Plot}
+# Plot the ratio of the female to male median
+# friend counts using the data frame
+# pf.fc_by_age_gender.wide.
 
+
+# The linetype parameter can take the values 0-6:
+# 0 = blank, 1 = solid, 2 = dashed
+# 3 = dotted, 4 = dotdash, 5 = longdash
+# 6 = twodash
+ggplot(aes(x = age, y = female/male),
+       data = pf.fc_by_age_gender.wide) + geom_line() +
+        geom_hline(yintercept = 1 ,linetype = 2, alpha = 0.3)
 ```
 
 ***
@@ -76,7 +118,12 @@ Notes:
 Notes:
 
 ```{r Third Quantitative Variable}
-
+# Create a variable called year_joined
+# in the pf data frame using the variable
+# tenure and 2014 as the reference year.
+summary(pf$tenure)
+pf$year_joined <- 2014 - ceiling(pf$tenure / 365)
+pf$year_joined <- floor(2014 - (pf$tenure / 365))
 ```
 
 ***
@@ -85,6 +132,18 @@ Notes:
 Notes:
 
 ```{r Cut a Variable}
+table(pf$year_joined)
+
+summary(pf$year_joined)
+?cut
+# Create a new variable in the data frame
+# called year_joined.bucket by using
+# the cut function on the variable year_joined.
+c2 <- cut(pf$year_joined, breaks = 3)
+table(c2)
+pf$year_joined.bucket = cut(pf$year_joined,breaks = 3)
+table(pf$year_joined.bucket)
+pf$year_joined.bucket = cut(pf$year_joined,c(2004,2009,2011,2012,2014))
 
 ```
 
@@ -94,8 +153,17 @@ Notes:
 Notes:
 
 ```{r Plotting it All Together}
+table(pf$year_joined.bucket,useNA = 'ifany')
 
+
+ggplot(aes(x = age,y=friend_count),data = hasgender_pf)+ 
+  geom_line(aes(color = gender) ,stat = 'summary', fun.y = 'median')
+
+
+ggplot(aes(x = age,y=friend_count),data = subset(pf,!is.na(year_joined.bucket)))+ 
+  geom_line(aes(color = year_joined.bucket) ,stat = 'summary', fun.y = 'median')
 ```
+
 
 ***
 
