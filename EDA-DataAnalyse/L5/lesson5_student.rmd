@@ -172,6 +172,11 @@ Notes:
 
 ```{r Plot the Grand Mean}
 
+ggplot(aes(x = age,y=friend_count),data = subset(pf,!is.na(year_joined.bucket)))+ 
+  geom_line(aes(color = year_joined.bucket) ,stat = 'summary', fun.y = 'median') +
+  geom_line(stat = 'summary', fun.y = 'mean',linetype = 2)
+
+
 ```
 
 ***
@@ -180,7 +185,11 @@ Notes:
 Notes:
 
 ```{r Friending Rate}
+pf_has_tenure <- subset(pf,!is.na(tenure) & tenure > 0)
+friend_rate <- pf_has_tenure$friend_count / pf_has_tenure$tenure
+summary(friend_rate)
 
+with(subset(pf, tenure > 0),summary(friend_count / tenure))
 ```
 
 ***
