@@ -1,0 +1,10 @@
+
+Here we want a summary of the friend rate. So,
+we can use the with command and subset the data
+so we only consider users with tenure of at least
+one day. Now we just want a summary of friend count
+divided by tenure, which gives us the friends per day
+since the user's been active. When we run the code,
+we see that the median rate is about 0.22, and
+the maximum rate is 417. Now, this is definitely an outlier,
+considering our data, since the third quartile is only about 0.5.

@@ -1,0 +1,13 @@
+
+For this programming assignment you needed to create the
+variable all purchases and add it to our Yo data
+frame. The transform function takes in a data frame and
+allows us to add different variables to it by recombining
+variables that are already within the data frame. So
+here I'll create the variable All Purchases and then I'll
+set it equal to the sum of all the yogurt
+flavors strawberry, blueberry, pina colda, plain, and mixed berry. When
+I run the code, I can see that my number of variables
+changed. And, just to be sure, I can print a summary of
+this variable as well. You might have also used this code. This
+code is fine, it's just a bit more verbose than we need.

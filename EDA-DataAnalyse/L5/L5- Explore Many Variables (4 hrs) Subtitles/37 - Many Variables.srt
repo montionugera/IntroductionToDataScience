@@ -1,0 +1,27 @@
+
+Before we wrap up our work with the pseudo-Facebook data, let's hear from Dean
+again about another technique that you can use in your work as a data analyst.
+>> Much of the analysis we've done so far
+focused on some pre-chosen variable, relationship or question of interest.
+We then used EDA to let those chosen variables speak
+and surprise us. Most recently, when analyzing the relationship between
+two variables we look to incorporate more
+variables in the analysis to improve it. For
+example, by seeing whether a particular relationship
+is consistent across values of those other variables.
+In choosing a third or fourth variable
+to plot we relied on our domain knowledge.
+But often, we might want visualizations or
+summaries to help us identify such auxiliary variables.
+In some analyses, we may plan to make
+use of a large number of variables. Perhaps,
+we are planning on predicting one variable with
+ten, 20, or hundreds of others. Or maybe
+we want to summarize a large set of variables
+into a smaller set of dimensions. Or perhaps,
+we're looking for interesting relationships among a large
+set of variables. In such cases, we can help
+speed up our exploratory data analysis by producing many plots
+or comparisons at once. This could be one way to let
+the data set as a whole speak in part by drawing
+our attention to variables we didn't have a preexisting interest in.

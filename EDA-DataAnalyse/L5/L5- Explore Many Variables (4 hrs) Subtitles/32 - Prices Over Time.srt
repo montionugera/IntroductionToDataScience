@@ -1,0 +1,17 @@
+
+Now that we have an extra column, our variable and
+our data frame, we can create a histogram of it.
+This histogram reveals that most households buy one or two
+yogurts at a time. To dive deeper into our yogurt
+prices and household behavior. Let's investigate the price over time
+in more detail. This is where our Facebook data was
+deficient. In this data set, we can examine changes in
+prices because we have data on the same households over time.
+So, now I want you to use your
+knowledge of scatter plots and over-plotting to create
+an appropriate visualization. Your visualization should be a
+scatter plot of price versus time. Now, there's no
+right answer here, so just create a plot
+that's sensible and that allows you to see the
+data. You can assess your code and your
+plot with what we did in the solution video.

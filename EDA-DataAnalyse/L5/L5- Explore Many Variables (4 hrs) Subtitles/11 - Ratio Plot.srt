@@ -1,0 +1,25 @@
+
+Now, this plot might have been a little bit tricky,
+so let's walk through it together. I'll assign age to the
+X parameter, and then I'll assign females divided by males, to
+the Y parameter. This will give me my ratio. And then
+I just need to make sure that I pass my
+newest data frame to data. We'll add a geome line to
+connect the points, and then we'll also add a horizontal line.
+This geom_hline will take a couple parameters. We'll set the y-intercept
+to one, the alpha equal to 0.3, and the
+line type equal to two. Running this code, we get
+out ratio plot. We can easily see that for very
+young users, the median female user has over two and
+a half times as many friends as the median male
+user Clearly it was helpful to condition on age, and
+understanding the relationship of gender with friend count. This helped
+assure us this pattern is robust for users of many
+different ages. And it also highlighted where this
+difference is most striking. Now, there are many
+processes that can produce this difference, including the
+biased distribution from which this pseudo Facebook data
+was generated. One idea which shows the complexity
+of interpretation here, is that people from particular
+countries who more recently joined Facebook are more
+likely to be male with lower friend counts.

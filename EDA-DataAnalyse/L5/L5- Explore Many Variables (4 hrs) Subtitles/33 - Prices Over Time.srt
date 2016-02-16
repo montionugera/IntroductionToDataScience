@@ -1,0 +1,10 @@
+
+For this solution, I'm showing you the GG plot code to
+create the scatter plot of price versus time. Now, I've added
+geom jitter here. So, that way, my points will show up
+a little bit transparent. And I'll color them with an orange
+hue. Looking at the plot, we can that the modal or
+the most common prices, seem to be increasing over time. We
+also see some lower price points scattered about the graph. These
+may be due to sales or, perhaps, buyers using coupons that
+bring down the price of yogurt.

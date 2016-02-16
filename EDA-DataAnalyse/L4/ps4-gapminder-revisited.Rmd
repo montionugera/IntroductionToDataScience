@@ -1,0 +1,81 @@
+---
+title: 'PS4: Gapminder - revisited'
+output: html_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+summary(cars)
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+
+```{r}
+
+library(ggplot2)
+library(xlsx)
+library(dplyr)
+library(tidyr)
+#
+cvix_cancer_data_raw <- read.xlsx("indicator cervix female incidence.xlsx", sheetIndex = 1)
+cvix_cancer_data_2002 <- select(cvix_cancer_data_raw, one_of(c("Cervix.Female.Incidence", "X2002")))
+cvix_cancer_data_2002<- rename(cvix_cancer_data_2002, country = Cervix.Female.Incidence)
+cvix_cancer_data_2002<- rename(cvix_cancer_data_2002, cvix_cancer_no_per_100k = X2002)
+
+breast_cancer_data_raw <- read.xlsx("indicator breast female incidence.xlsx", sheetIndex = 1)
+names(breast_cancer_data_raw)
+breast_cancer_data_2002 <- select(breast_cancer_data_raw, one_of(c("Breast.Female.Incidence", "X2002")))
+breast_cancer_data_2002 <- rename(breast_cancer_data_2002, country = Breast.Female.Incidence)
+breast_cancer_data_2002 <- rename(breast_cancer_data_2002, breast_cancer_no_per_100k = X2002)
+children_per_women_data_raw <- read.xlsx("indicator undata total_fertility.xlsx", sheetIndex = 1)
+children_per_women_data_2002 <- select(children_per_women_data_raw, one_of(c("Total.fertility.rate", "X2002")))
+children_per_women_data_2002 <- rename(children_per_women_data_2002, country = Total.fertility.rate)
+children_per_women_data_2002 <- rename(children_per_women_data_2002, children_per_women = X2002)
+
+data_all <- merge(cvix_cancer_data_2002, breast_cancer_data_2002)
+data_all  <- merge(data_all, children_per_women_data_2002)
+head(data_all)
+data_all <- subset(data_all,!is.na(cvix_cancer_no_per_100k) & !is.na(breast_cancer_no_per_100k) & !is.na(children_per_women))
+head(data_all)
+
+```
+
+
+```{r, echo=FALSE}
+ggplot(data_all,aes(x = children_per_women , y = breast_cancer_no_per_100k))+geom_point(alpha = 0.5)
+ggplot(data_all,aes(x = children_per_women , y = cvix_cancer_no_per_100k))+geom_point(alpha = 0.5)
+
+```
+
+
+```{r, echo=FALSE}
+data_all <- subset(data_all,children_per_women <= 7)
+cpw_groups <- group_by(data_all, children_per_women)
+data_all.cancer_by_cpw <- summarise(cpw_groups,
+          breast_cancer_mean = mean(breast_cancer_no_per_100k),
+          cvix_cancer_mean = mean(cvix_cancer_no_per_100k),
+          n = n() )
+data_all.cancer_by_cpw <- arrange(data_all.cancer_by_cpw, children_per_women)
+
+ggplot(aes(x = children_per_women, y = breast_cancer_mean), data = data_all.cancer_by_cpw) + 
+ geom_line() + geom_smooth()
+p1<- ggplot(aes(x = children_per_women, y = breast_cancer_mean), data = data_all.cancer_by_cpw) + 
+ geom_line() + geom_smooth()
+
+p2<- ggplot(aes(x = children_per_women, y = cvix_cancer_mean), data = data_all.cancer_by_cpw) + 
+ geom_line() + geom_smooth()
+library(gridExtra)
+grid.arrange(p2,p1,ncol=1)
+
+with(data_all, cor.test(children_per_women, breast_cancer_no_per_100k))
+with(data_all, cor.test(children_per_women, cvix_cancer_no_per_100k))
+
+```

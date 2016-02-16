@@ -1,0 +1,16 @@
+
+We've learned even more about the relationship between age
+and friend count by making use of the variables' gender
+and tenure. We've seen that users who have been
+on the site longer, typically have higher friend counts across
+ages. Now, this leaves me wondering if friend requests
+are the same or different across groups. Do new users
+go on friending sprees? Or do users with more
+tenure initiate more friendships? Let's explore this with a plot.
+I want you to create a line
+graph of friendships initiated per day, versus tenure.
+You need to make use of the variables
+age, tenure, friendships initiated, and year_joined.bucket. The color
+of each part of your one line should
+correspond to each bucket of year_joined. You'll also
+need to subset the data to only consider users with at least one day of tenure.

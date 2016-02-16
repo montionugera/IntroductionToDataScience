@@ -1,0 +1,10 @@
+
+To create this plot, we're going to have much of the
+same code as before. We'll pass tenure to our x variable,
+and then we'll pass friendships initiated divided by tenure to
+our y variable, and we'll subset our data frame so that
+we only consider users who have a tenure of at
+least one day. We'll color our line by year_joined.bucket and then
+we'll plot the mean of the y variable across tenure. Taking
+a closer look, it appears that users with more tenure typically
+initiate less friendships.

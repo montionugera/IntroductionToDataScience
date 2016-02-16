@@ -1,0 +1,21 @@
+
+We've done two things up to this point. We
+created a variable called year_joined, based on the tenure variable,
+and we converted year_joined, to the variable year_joined_bucket. A categorical
+variable. That bin their users into different groups. Let's table
+this new variable to see the distribution in each group.
+Here we can see that we have our four bins
+of users, depending on when they joined Facebook, and it
+looks like two people have a value of NA. Let's
+use this new year joined bucket variable to create a
+line graph Like we did for gender at the start of
+the lesson. As a reminder, here's the code that generated this
+plot earlier. Also, notice how we compute the median friend count
+for each age using the fun.wide parameter, and the summary for
+the stat parameter. Using a similar code structure that we see
+here. I want you to create a plot for friend count
+versus age, so that each year join bucket has its own
+line on the graph. In other words, each
+bucket will be a color line that tracks the
+median friend count across the age of users,
+just as it did in this plot for genders.

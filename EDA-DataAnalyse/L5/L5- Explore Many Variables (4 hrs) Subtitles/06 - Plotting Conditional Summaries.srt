@@ -1,0 +1,11 @@
+
+To create this plot, we're going to pass in our variables
+to gg plot as usual. We'll set x equal to age,
+and y equal to median friend count. And we'll set
+data equal to the data frame that we just created. So
+pf.fc by age, gender. Now I just need to add
+gm line and pass up the color parameter inside the unaesthetic
+wrapper. This time the color will take on the value
+of gender. This will give me one line for males and
+one line for females. Running this code, we get the same
+exact plot. Hopefully you're feeling like a data guru at this point.

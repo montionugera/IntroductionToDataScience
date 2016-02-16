@@ -1,0 +1,11 @@
+
+This can be useful if we want to inspect
+these values, or carry out further operations to help us
+understand how the difference between male and female users varies
+with age. For example, looking at this plot, it seems
+like the gender difference is largest for our young users.
+It would be to put this in relative terms though.
+So, let's answer a different question. Let's answer the question,
+how many times more friends does the average female user
+have than the male user? Maybe, females have twice as many
+friends as male users, or maybe it's ten times as many friends

@@ -1,0 +1,33 @@
+
+The last plot that we'll make for this course is called
+a Heat Map. For our data set we want to display
+each combination of gene and sample case, the difference in gene
+expression and the sample from the base line. We want to display combinations
+where a gene is over expressed in red. in combinations where
+it is under expressed in blue. Here's the code to make that
+Heat Map. First, we'll run all of this in order to
+melt our data to a long format. And then we just run
+our ggplot code using the geom, geom tile. Now,
+this last line is going to give us a scale gradient.
+And we're going to use the colors from blue to red.
+So, let's see what the output looks like. And, there's
+our Heat Map. Even with such a dense display, we
+aren't looking at all the data. In particular, we're just
+showing the first 200 genes. That's 200 genes of over
+6,000 of them. And since this data set was produced.
+Genomic data sets of these kind, sometimes called
+micro data are only getting larger, and more complex.
+What's most interesting, is that other data sets also
+look like this. For example, internet companies run lots
+of randomized experiments. Where in the simplest versions, users
+are randomly assigned to a treatment like a new
+version of a website or some sort of new
+feature or product or a control condition. Then the
+difference in outcome between the treatment and control can
+be computed for a number of metrics of interest.
+In many situations, there might have been hundreds or
+thousands of experiments and hundreds of metrics. This data
+looks very similar to the genomic data in some
+ways. And this is why the useful maxim plot
+all the data might not always apply to a
+data set as it did to most of this course.

@@ -1,0 +1,31 @@
+
+If you're ready, let's go through the code to reshape our
+data frame into a new one. First, let's install and load the
+R reshape two package. Now, let's create a variable for a
+new data frame that will be in wide format. I'll use the
+same variable name for the data frame and just add wide
+to the end. Now, we're going to make use of the dcast
+function, which comes with the R shape two package. The letter d
+is used since we want the result to be a data frame.
+If we wanted an array or a matrix we could use a
+cast. We specify the data set we are going to change and then
+we put in a formula. So, here's the data frame I want to
+modify and then this is where I'll enter my formula. Now, the first
+part of the formula, or the part to the left of the Tilly
+sign, will list the variables I want to keep with an addition side in
+between them. Here I just want to keep h. On the right side
+of the tilda, we use the gender variable since we want male and
+female users to have their own columns for median friend count
+in the data frame. And finally, we set value dot var equal
+to median friend count because value dot var holds the key measurements
+or their values in our new data frame. And it looks like
+that I forgot quotes around this variable. So let me add
+that. Now, we should get a new data frame. And let's look
+at some of these data frames, so that way, we can make
+sure we understand this dcast function. Here are some of the rows
+printed out and notice I have my age column, my female median friend count and
+my male median friend count. See if you can recreate these steps on your own and
+try playing around with the D cast and
+Nill functions, and the reshape to package. The
+Nill function will allow you to convert the
+Y data back to the original long format

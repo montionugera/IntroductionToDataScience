@@ -1,0 +1,23 @@
+
+Congratulations on finishing lesson five. Here, we
+took many of the basic techniques you learned
+in previous lessons and extended them to
+look at patterns across many variables at once.
+>> We started with simple extensions to the scatter plot,
+and plots of conditional summaries that you worked with in
+lesson four, such as adding summaries for multiple groups. Then,
+we tried some techniques for examining a large number of variables
+at once, such as scatter-plot matrices and heat maps.
+>> We also learned how to reshape data, moving from
+broad data with one row per case, to aggregate data
+with one row per combination of variables, and we moved
+back and forth between long and wide formats for our data.
+>> Next up in lesson six, we'll hear from our colleague
+Solomon. He's going to do an in-depth analysis of the diamond
+data set, so you can see how an expert does it. Lesson six also covers a larger
+part of the data analysis process, highlighting the role
+of EDA. Solomon did a lot of reading about
+the diamond industry. He wrote codes to scrape
+and format a new data set, and he used
+the results of his exploratory data analysis to guide,
+interpret, and evaluate a statistical model of diamond prices.

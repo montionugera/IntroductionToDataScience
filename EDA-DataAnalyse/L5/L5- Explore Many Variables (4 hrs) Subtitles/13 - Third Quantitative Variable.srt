@@ -1,0 +1,17 @@
+
+For this program assignment, you need to create the variable year_joined,
+and assign it to the data frame pf. To do that,
+we just need to take our reference year 2014, and subtract
+off our tenure, or the number of days someone's been active
+on Facebook. Now, tenure is measured in days rather than in
+years, so we need to divide this 365. I also need
+to make sure that I actually access the variable so I
+need to include pf right here with a dollar sign. Now,
+this number will give me a year with a little
+bit of extra if there's a decimal. Now, I don't really
+care about the decimal, since that doesn't make a full
+year, so I just want to floor this number. The function
+floor will return the greatest integer that's not larger than
+this number. When I run the code, it doesn't look like
+much happened. But if I check my data frame, I
+can see that I have another variable. There it is, year_joined.

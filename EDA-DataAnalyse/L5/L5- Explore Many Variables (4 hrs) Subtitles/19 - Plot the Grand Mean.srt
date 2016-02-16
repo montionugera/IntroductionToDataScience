@@ -1,0 +1,12 @@
+
+To plot the means and study the medians for each of the
+cohorts, we just need to change our fun.y parameter. This needs to
+be mean instead. Now, to get the grand mean, we just add
+a geom line and then set the parameters. We'll have a stat
+of summary. We'll set fun.y to equal the mean, and then we'll
+set the line type equal to two. Here, I'm using two so
+that way, I get a dash line so it stands out in
+comparison to these others. Plotting the grand mean is a good reminder
+that much of the data in the sample is about members of recent cohorts. This is
+the type of more high level observation that
+you want to make as you explore data.

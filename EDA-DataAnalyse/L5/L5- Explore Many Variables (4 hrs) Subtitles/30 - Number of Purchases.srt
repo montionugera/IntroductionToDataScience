@@ -1,0 +1,27 @@
+
+There are other ways we could have noticed this important feature
+of the data set. But, there are also other ways, that
+by jumping into a different analysis, we might have missed this.
+For example, if we just look at a five number summary
+of the data, we might not notice this so easily. One
+clue to the discreteness is that the 75th percentile is the
+same as the maximum. We could also see this discreteness by
+looking at how many distinct prices there are in the data set.
+So here it looks like there's about 20 different prices.
+Tabling the variable we get an idea of the distribution
+like we saw in the histogram. So now that we
+know something about the price, let's figure out on a given
+purchase occasion how many eight ounce yogurts does a household
+purchase. To answer this we need to combine accounts of
+the different yogurt flavors into one variable. For example, for
+this particular household, on one purchase occasion, they bought three different
+types of yogurt. To figure this out for all the households,
+we need to make use of a new function. The function
+is called the transform function. Now I haven't introduced this function
+yet, but I want you to look up the function and run
+the examples of the code at the bottom of the documentation
+to figure out what it does. See if you can create
+a new variable called all.purchases, which gives the total counts of
+yogurt for each observation or household purchase. Keep in mind that you
+need to save this variable to the data frame,
+so this may or may not be in your syntax.

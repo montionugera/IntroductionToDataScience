@@ -1,0 +1,10 @@
+
+The GG pairs function uses a different plot type for
+different types of combinations of variables. Hence, we have histograms here
+and we have scatter plots here. Many of these plots
+aren't quite as nice as they would be if we fine-tuned
+them for the particular variables. For example, for all the
+counts of likes, we might want to work on a logarithmic scale.
+But, GG Pairs doesn't do this for us. At the very
+least, a scatter plot matrix can be a useful starting point
+in many analyses.

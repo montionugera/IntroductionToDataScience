@@ -1,0 +1,13 @@
+
+Looking at this plot, we can see that our suspicion
+is confirmed. Users with a longer tenure tend to have
+higher friend counts, with the exception of our older users,
+say, about 80 and up. To put these cohort specific
+medians in perspective, we can change them to cohort specific
+means. And then plot the grand mean down here as
+well. The grand mean is the line we saw in
+lesson four when we plotted average friend count across the ages.
+Let's see if you can change the code for this
+plot to plot the means instead of the medians for
+each cohort. You'll also want to plot out the grand
+mean as well, that we talked about in lesson four.

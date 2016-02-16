@@ -1,0 +1,11 @@
+
+For this programming exercise, you need to create a variable
+called, year joined bucket. That bin together users depending on
+which year they joined Facebook. So, for example, this would
+be one bucket, this would be one bucket, this would be
+a bucket, and then these users would be another bucket.
+To do this, we just need to use the cut function
+on the variable year joined. I just need to tell
+Cut, on what years I should split my data. So I'm
+going to split at 2004, 2009, 2011, 2012, and 2014.
+Running this code, I can see that I got a new variable inside of my data frame.

@@ -1,0 +1,37 @@
+---
+title: "23perspective-hr analyst"
+output: html_document
+---
+Question : 
+What's skill that we lack of?
+Which way that we need to do to make the better team?
+What kind of person that we should hire?
+Does pay rate competitive or excessive?
+
+inspire by :
+http://www.willerbyhill.co.uk/what-is-a-skills-matrix-and-how-to-create-one/
+
+
+```{r}
+setwd("/Users/montionugera/WorkSpace/Udemy-Datascience/IntroductionToDataScience/EDA-DataAnalyse/L4/hr_files")
+getwd()
+file_list <- list.files()
+file_list
+
+library(ggplot2)
+library(xlsx)
+library(dplyr)
+library(tidyr)
+skill_metric_data_raw <- read.xlsx("skill_matrix_database_ENG_28052015.xlsm", sheetIndex = 4)
+names(skill_metric_data_raw)
+
+strong_skill_data <- 
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

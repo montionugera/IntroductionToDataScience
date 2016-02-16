@@ -1,0 +1,20 @@
+
+Now I know our work up to this point
+with this yogurt data set has been review and it
+should be, but lets hear from Dean about how we
+might proceed differently with this type of a data set.
+>> When familiarizing yourself with a new data set that
+contains multiple observations of the same units, it's often useful
+to work with a sample of those units so that
+it's easy to display the raw data for that sample.
+In the case of the yogurt data set, we might want to look at a small sample
+of households in more detail so that we know
+what kind of within and between household variation we
+are working with. This analysis of a sub-sample might
+come before trying to use within household variation as
+part of a model. For example, this data set
+was originally used to model consumer preferences for variety.
+But, before doing that, we'd want to look at how often we observe households
+buying yogurt, how often they buy multiple items, and what prices they're buying
+yogurt at. One way to do this is to look at some sub-sample
+in more detail. Let's pick 16 households at random and take a closer look.

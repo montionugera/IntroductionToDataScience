@@ -1,0 +1,26 @@
+
+I'd like you to get started by looking at the structure
+and the summary of the Yerger data set on your own
+computer. You may want to pause the video now to give yourself
+some time to load in the data set and to download it
+first from the instructor notes. This Yerger data set contains over
+2000 observations. For nine different
+variables. The observations are for households
+that buy Dannon yogurt over time. Now one thing that you
+might notice is that most of the variables in here are integers.
+But I want to convert one of the variables to a factor, and
+that's the ID variable. We'll see how this comes in handy later
+in the course. But just make sure it says factor right here
+on your data set as well. If ID doesn't say factor for
+the type of variable, make sure you run this command in order
+to change ID to a factor variable. Once you've done all this,
+I want you to create a histogram of the Yogurt prices. Copy
+and paste your R code in to the R chunk on the quiz
+screen that will appear here. And then write a
+few sentences about what you notice. So that way
+we can be consistent as we work through the
+data set together. I want you to be sure to
+read in the data set into the variable called
+Yo. You can, of course, use other variable names.
+But our auto grader will only accept answers for
+programming assignments that have this data frame labeled as Yo.

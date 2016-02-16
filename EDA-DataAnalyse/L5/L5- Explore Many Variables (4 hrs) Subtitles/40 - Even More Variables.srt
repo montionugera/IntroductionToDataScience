@@ -1,0 +1,17 @@
+
+A matrix such as this one will be extremely helpful
+when we have even more variables than those in the pseudo-Facebook
+data set. Examples arise in many areas, but one that
+has attracted the attention of statisticians is genomic data. In these
+data sets, they're often thousands of genetic measurements for each
+of a small number of samples. In some cases, some of
+these samples have a disease, and so we'd like to identify
+genes that are associated with the disease. In the instructor notes,
+you'll find a data set of gene expression in tumors. The
+data contains the expression of 6,830 genes, compared with a larger
+baseline reference sample. Now, this is a ton of data. So
+let's go ahead and read in the data set, and then
+I'll change the color names of the data set to be
+the numbers from one to 64. Now, I'm just doing this
+so that way the plot that I create is going to be
+a little bit nicer with the labeling on the x axis.

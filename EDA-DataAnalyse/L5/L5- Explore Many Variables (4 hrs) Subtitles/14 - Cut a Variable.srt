@@ -1,0 +1,19 @@
+
+We've got our new variable your joined so let's look
+at its summary it looks like most of our users
+joined in 2012 or 2013 and since the values for
+this variable are discreet and the range is pretty narrow I'm
+going to go ahead and table this variable as well.
+Here we can see the distributions of users and each year
+joined. Notice that there isn't much data here about early
+joiners. To increase the data we have in each tenure category,
+we can group some of these years together. The
+cut function is often quite useful for making discrete variables
+from continuous or numerical ones, sometimes in combination with the
+function quantile. Now what I want you to do is
+to look at the documentation for cut, and refer
+to the link in the instructor notes to complete this
+next programming exercise. Your task is to cut the variable
+year joined to create four bins, or buckets of users.
+The bins will be from 2004 to 2009, 2009
+to 2011, 2011 to 2012, and then 2012 to 2014.

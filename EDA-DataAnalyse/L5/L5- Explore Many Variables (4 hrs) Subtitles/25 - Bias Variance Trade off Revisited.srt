@@ -1,0 +1,11 @@
+
+To add a smoother to this plot, we need to
+change geom line to geom smooth. We also need to
+get rid of this fun.y parameter and the stat parameter.
+We'll still keep yearjoined.bucket assigned a color, so that way
+we see this segment in our graph. And here I'm
+using the defaults for geom smooth. So R will automatically
+choose the appropriate statistical methods based on our data. All
+of that additional information can be found in the output
+down here. So here again, in this smooth version of the
+graph, we still see that the friendships initiated declines as tenure increases.

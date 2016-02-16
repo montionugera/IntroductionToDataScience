@@ -1,0 +1,17 @@
+
+To answer that question, we need to rearrange our data a
+little bit. Right now, our data is in long format. We
+have many rows. And, notice how that the variables that we
+grouped over, male and female, have been repeated. They're repeated for each
+year. So let's do something else besides this long data format.
+What we're going to do is convert it to a wide format. This
+new data frame will have one row for each age, and
+then we'll put the median friend count inside of males and females.
+Many times when computing with and exploring data,
+it's helpful to move back and forth between these
+different arrangements. To carry this out in R,
+we're going to be using the reshape2 package. Now, if
+the different between wide and long data is
+still a little bit fuzzy to you, I recommend
+pausing the video right now. You can read through
+another example in the instructor notes before moving on.

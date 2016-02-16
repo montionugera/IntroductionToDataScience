@@ -1,0 +1,28 @@
+
+Throughout all of our analyses of the pseudo-Facebook user data
+set, we've come to learn a lot about our users.
+From their birthdays, to their friend counts, to their friendships
+initiated, we've really come to understand their behaviors and how they
+use the Facebook platform. But, now I think it's time
+for something completely different. In the next couple of segments,
+we'll look at another data set, and then we'll return
+to this Facebook data set to draw some comparisons Here's Dean
+to introduce this new data set, and why we might look at it in the first place.
+>> Because of online purchases, credit cards, and loyalty cards, lots of
+retail purchase data is associated with
+individuals or households, such that there
+is a history of purchase data over time. Analysts in industry often mine
+this panel scanner data, and economists and other behavioral scientists use
+it to test and develop theories about
+consumer behavior. We are going to work with a
+data set describing household purchases, of five
+flavors of Dannon yogurt in the eight-ounce size.
+Their price is recorded with each purchase
+occasion. This yogurt data set has a quite
+different structure than our pseudo-Facebook data set.
+The synthetic Facebook data has one row per
+individual with that row giving their characteristics and counts of behaviors
+over a single period of time. On the other hand, the yogurt data has many
+rows per household, one for each purchase occasion. This kind of microdata is
+often useful for answering different types of
+questions than we've looked at so far.

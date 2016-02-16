@@ -1,0 +1,8 @@
+
+We've got our new data frame so let's make use of it. I want you
+to plot the ratio of females to males
+to determine how many times more friends the
+average female user has, compared to the number
+of friends the average male user has. You'll
+also add some cool features to the plot,
+but I'll describe that in the programming exercise.

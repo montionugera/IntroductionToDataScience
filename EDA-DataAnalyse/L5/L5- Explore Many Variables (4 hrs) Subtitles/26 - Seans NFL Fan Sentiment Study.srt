@@ -1,0 +1,112 @@
+
+You learned about the bias–variance tradeoff in this lesson and
+the last lesson. Now I want you to hear from Sean.
+Hear about his work at Facebook and pay careful attention to
+his models and the trade offs in the visualizations he made.
+>> Some recent work I've been doing on measuring fan sentiment for 
+NFL teams over the course of the season that I'm really excited about.
+it's, it's been a really fun project because I myself am, am an
+NF, NFL fan. I'm a huge Eagles fan and I go through all
+of the, emotions that a fan goes through over the course of
+the season. You know, the highs of when your team wins and then
+the lows after a couple losses in a row of feeling kind of
+hopeless. And so I got the idea of maybe we could measure this
+and kind of tell a story. Not just for my team but
+for all the other teams in the NFL, and come up with some
+idea, some way of visualizing this, this experience of being a fan. And
+so I, I counted ratios of positive to negative words at five-minute increments
+over the course of the whole four months of the NFL season. And
+because we're taking a ratio, we end up with some measurements that are
+extremely high. Like, you know, positive to negative word ratios, oh, over a
+hundred even though the average in somewhere in the two to three range.
+So this, this was kind of like a first cut at the data, and
+we can see that there's some signal here. But it's, it's definitely going to
+need some, some modeling or some statistics in order to kind of tease
+out what's actually happening. So what I did was just compute a moving average
+of these five minute measurements and we start to get a little
+bit of signal out of there. Because we're pooling over more measurements, so
+the measurements themselves are more reliable. And we end up with a series
+that kind of tells a little bit of a story. But these measurements
+are still too frequent and too noisy to, to really tell a story
+about what's happening. When we aggregate it up to one day moving averages,
+we start to see some patterns emerge. I guess one of the key
+features of this dataset was that I knew what I was looking for
+ahead of time. Because I, I am an Eagles
+fan, I experienced the highs and lows of the seasons.
+I can look at a plot like this immediately
+and tell you this is not telling the story that
+I want. We needed to maybe apply some modeling
+to that. We want a model that predicts sentiment as
+a function of time. And one of the things
+that comes to mind right away is a natural spline.
+>> You can see that this actually tells a nice story. These color lines are
+the dates of wins and loses. It kind of gives you an idea of why
+the lines are upward sloping or downward sloping. So you can see
+here, kind of like the exuberance at the beginning of the season as
+people are really optimistic. And then, you know, three losses in a
+row and see how the sentiment dips. This tells a nice story, but
+it doesn't have the feature of, that we'd expect, which is that
+on game day, things change really abruptly. At the very end of the
+game, when you know if you've won or you've lost, you're much
+happier or much sadder than you were at the beginning of the game.
+So we expect to see really discrete jumps in sentiment
+that we don't see from a model like this. And this
+is because this is a bad model of the underlying data
+generating process. So we need something more flexible. One way to
+do that is just to use a seven day moving
+average. Which is going to allow us to include only kind
+of the last game sentiment in the moving average. So we're
+going to pick a moving average, like I showed you before.
+Let's smooth it out into over a whole seven day period. And when
+we do that, we get something that actually tells a really nice story
+about the season. And has all the kind of characteristics that I would
+expect as a fan in having gone through this. Which is, the kind
+of, the big bumps up on game days where you win, the big
+bumps down on game days where you lose. And then, kind of, these
+plateaus in between, which are these periods of stability when you don't have
+any information about how your team is doing. We see that a week off
+around Thanksgiving but then there's a big spike in
+happiness because people are [UNKNOWN] Thanksgiving. This big low point
+right after a loss that could have knocked them out
+of the playoffs. And then a big kind of ascension
+to their playoff game which they ended up losing
+and the subsequent dip. This I think is a really
+nice depiction of what happened and it took a little
+bit of averaging to get the story to come out.
+>> When you're looking at all this data, what sort
+of things come up for you in terms of bias and
+variance tradeoffs.
+>> When you're computing just a simple moving average like this,
+you're dealing with one of the most, it's just a really
+flexible statistic. And so you're, not imposing any structure on the
+data. You're letting the data kind of speak. When I use a
+moving average here and I plotted standard errors that were kind
+of rolling along with the data. They were gigantic. The mean
+sentiment for the season is somewhere in the three range. And
+the standard errors were over two or three. We can say very
+precisely what's happening at any given point. But our variance
+on that estimate is huge. So as we started to
+add more lags, higher number of lags to the, moving
+average. We end up with kind of smoother looking plots, that
+have lower variance but but then are getting progressively more
+bias. So as we go back further we are including
+more data and were getting more bias. Because were including
+data from parts that actually aren't applicable to that exact point.
+But in exchange for that we get a lower variance plot,
+one that doesn't move as wildly. When we combine that with
+splines, we can end up fitting a model, that has kind
+of the best of both worlds. Which has the smoothing, aspects of
+the splines, with the discrete jumps, of what happens on game
+day. And so this is a spline where we add it dummy
+variables for post game periods. In this model, we end up
+with kind of all the same thing. We get the big jumps
+that we expect, so it jumps down on loses, jumps up
+on game days where they win. And then also kind of the
+smooth transitions in between. So it's kind of a nice story of
+taking one style of model, which is a spine, which is just
+too specific for the data generating process, and maybe not a good
+fit. And in doing some exploratory data analysis where we see that
+averaging over seven days tells a really nice story and gives us
+the discreteness that we want. And then combining those two together into
+kind of an aggregate of the two types of models. Where We're able
+to better account for the fact that game days, are, are an important thing.

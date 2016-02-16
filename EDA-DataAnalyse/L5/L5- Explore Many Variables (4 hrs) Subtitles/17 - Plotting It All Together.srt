@@ -1,0 +1,10 @@
+
+To create this new plot, we really just need to
+switch out gender with our year_joined.bucket variable. This is the new
+categorical variable that will take the place of color. Now, I'm
+also using year_joined.bucket here so that way, I can exclude the
+two people who have values of NA. I'll clean up
+my code just a little bit, and then I'll run it
+to create my plot. And now, here's the plot that examines
+the relationship between friend_count and
+age, split up by year_joined.bucket variable.

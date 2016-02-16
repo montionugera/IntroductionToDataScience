@@ -1,0 +1,48 @@
+
+Thanks again, Dean. Let's cut up the exploration Dean just
+described. First, we should use the set seed function to
+make this reproducible. Running this one line of code will
+also allow you to see the same households in my
+explorations, if you use the same seed number. Now, let's
+sample 16 of the households from our yogurt data set,
+from yogurt ID. Notice that I'm sampling from the levels
+because those are all of the different households that I have.
+I'll run the code for the sample ID's. And then, I'll
+print out the sample ID's. There's the 16 of them. Now
+we can plot each purchase occasion for each of the households
+that we sampled. We have the time of the purchase, the
+price per item of the yogurt, and the number of items.
+Here, I'm using the size parameter to add more detail to
+my plot. I'm passing at the all purchases variable, so that
+way I can consider the number of items in terms of size
+of the point on the plot. So, before I run this
+code, I want you to take a minute to think about
+what type of plot this code will produce. You maybe want
+to pause for a moment and give yourself some time to
+think. Now you might also notice this new syntax here. This
+percent in percent sign. This just tells us to loop over
+the IDs, so that when we go through and create a
+panel plot, for each ID of our households. And here's the plot.
+Notice how we get panels for each of the households
+that we had in our sample. From these plots, we
+can see the variation and how often each household buys
+yogurt. Here, a lot and here, not to much. And
+it seems that some household purchases more quantities than others
+with these larger circles indicating not here. For most of
+the households, the price of yogurt holds steady, or tends
+to increase over time. Now, there are, of course, some exceptions,
+like in this household and in this household, and even here,
+we might think that the household is using coupons to drive the
+price down. Now, we don't have the coupon data to associate with
+this buying data, but you could see how that information could be
+paired to this data to better understand the consumer behavior. So
+now, let's have you do something similar. Your task is to create
+a similar plot and provide your own insights for another set of
+16 houses. I like you to create a discussion post that includes
+your seed number and the title and in the post, you can include an image of your
+plot and any observations that you make. You may
+want to try this for a few households to
+get a better feel for the data and the
+plot. There won't be any solution video here, so
+we'd love to hear from you all and see
+you all discuss what's going on in the discussions.

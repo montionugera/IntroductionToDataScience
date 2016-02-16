@@ -1,0 +1,25 @@
+
+There's a lot of noise in our graph since we are
+plotting the mean of y for every possible tenure x value.
+Recall from lesson four that we can adjust this noise by
+bending our x-axis differently. Let me show you one of those changes
+in the bend width. Here's our code from before, and instead
+of using tenure here, I'm going to replace this with a different version
+or formula so that way I can bend some of the
+tenures together. Now let's see the difference when I plot this graph.
+Notice how I have slightly less noise in my plot.
+We still see some of the same peaks from before,
+especially here, but it's much smoother in general. Here's another
+one using the number 30 instead of the number seven
+and here's a graph with very high bias, but much
+less variance using the number 90. Here I plotted all
+the graphs so we could compare it to the original
+one. Notice that as the bin size increases we see less
+noise on the plot. Our estimates are adjusted
+since we have more data points for our new
+values of tenure. In lesson four we introduce
+smoothers as one tool for an analyst to use
+in these types of situations. So instead of
+using gm line here, I'd like you to use
+gm smooth, to add a smoother, to this
+plot. Try doing this, in this next programming assignment.

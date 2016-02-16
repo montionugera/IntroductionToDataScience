@@ -1,0 +1,6 @@
+ 
+In the last lesson, you learned how to examine the relationship between two 
+quantitative variables. In this lesson, you'll 
+learn how to examine three or more 
+variables at a time. Let's get started by hearing from Mora about how 
+she added one more variable to her scatter plot of perceived audience size.
