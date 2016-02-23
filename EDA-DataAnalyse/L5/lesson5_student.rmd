@@ -85,6 +85,9 @@ Notes:
 ```{r}
 install.packages('reshape2')
 library(reshape2)
+pf.fc_by_age_gender
+dcast(pf.fc_by_age_gender,age ~ gender,value.var = 'median_friend_count')
+
 pf.fc_by_age_gender.wide <- dcast(pf.fc_by_age_gender,
                                   age ~ gender,
                                   value.var = 'median_friend_count')
@@ -200,8 +203,18 @@ Notes:
 What is the median friend rate?
 
 What is the maximum friend rate?
-
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+  0.0000   0.0775   0.2205   0.6096   0.5658 417.0000 
 ```{r Friendships Initiated}
+
+ggplot(aes(x = tenure,y=friendships_initiated/tenure),data = subset(pf,!is.na(year_joined.bucket) & tenure > 0))+ 
+  geom_line(aes(color = year_joined.bucket) ,stat = 'summary', fun.y = 'mean')
+
+ggplot(aes(x = 30*round(tenure/30),y=friendships_initiated/tenure),data = subset(pf,!is.na(year_joined.bucket) & tenure > 0))+ 
+  geom_line(aes(color = year_joined.bucket) ,stat = 'summary', fun.y = 'mean')
+
+ggplot(aes(x = tenure,y=friendships_initiated/tenure),data = subset(pf,!is.na(year_joined.bucket) & tenure > 0))+ 
+  geom_smooth(aes(color = year_joined.bucket) )
 
 ```
 
@@ -254,6 +267,11 @@ Notes:
 Notes:
 
 ```{r Histograms Revisited}
+yo <- read.csv("yogurt.csv")
+str(yo)
+yo$id = factor(yo$id)
+str(yo)
+ggplot(aes(x = price),data = yo) + geom_histogram(binwidth = 10 ,fill = 'grey')
 
 ```
 
@@ -263,6 +281,15 @@ Notes:
 Notes:
 
 ```{r Number of Purchases}
+summary(yo)
+length(unique(yo$price))
+table(yo$price)
+?transform
+# Create a new variable called all.purchases,
+# which gives the total counts of yogurt for
+# each observation or household.
+yo <- transform(yo,all.purchases = strawberry+blueberry+pina.colada+plain+mixed.berry )
+summary(yo)
 
 ```
 
@@ -273,6 +300,8 @@ Notes:
 
 ```{r Prices over Time}
 
+ggplot(aes(x= time,y = price),data = yo) + geom_point(alpha = 0.1)
+ggplot(aes(x= time,y = price),data = yo) + geom_jitter(alpha =0.25 ,shape = 21,fill = '#e7ad61')
 ```
 
 ***
@@ -286,6 +315,21 @@ Notes:
 
 ```{r Looking at Sample of Households}
 
+# Set the seed for reproducible results
+set.seed(12345)
+sample.ids <- sample(levels(yo$id),16)
+sample.ids
+
+sample(levels(yo$id),16)
+sample(levels(yo$id),16)
+
+ggplot(aes(x=time,y = price), 
+       data = subset(yo, id %in% sample.ids))+
+      facet_wrap(~id) +
+  geom_line()+
+  geom_point(aes(size = all.purchases),pch = 1 )
+?geom_point
+#Use the pch or shape parameter to specify the symbol when plotting points. Scroll down to 'Plotting Points' on QuickR's Graphical Parameters.
 ```
 
 ***
@@ -304,6 +348,24 @@ Notes:
 Notes:
 
 ***
+```{r}
+#install.packages('GGally')
+library(GGally)
+theme_set(theme_minimal(20))
+set.seed(1836)
+pf_subset <-pf[,c(2:15)]
+names(pf)
+names(pf_subset)
+ggpairs(pf_subset[sample.int(nrow(pf_subset),1000),])
+
+samples_pf <- pf_subset[sample.int(nrow(pf_subset),1000),]
+
+cor.test(samples_pf$friend_count,samples_pf$friendships_initiated)
+cor.test(samples_pf$age,samples_pf$mobile_likes)
+
+
+```
+
 
 ### Even More Variables
 Notes:
@@ -315,11 +377,26 @@ Notes:
 
 ```{r}
 nci <- read.table("nci.tsv")
+names(nci)
+head(nci)
 colnames(nci) <- c(1:64)
+?colnames #Retrieve or set the row or column names of a matrix-like object.
+
+colnames(nci)
 ```
 
 ```{r}
+
+library(reshape2)
 nci.long.samp <- melt(as.matrix(nci[1:200,]))
+nrow(nci[1:200,])
+#64*200
+nrow(melt(as.matrix(nci[1:200,])))
+?as.matrix
+?melt# Melt an object into a form suitable for easy casting.
+
+head(nci.long.samp)
+as.matrix(nci[1:10,])
 names(nci.long.samp) <- c("gene", "case", "value")
 head(nci.long.samp)
 
