@@ -1,0 +1,1 @@
+ Finally, let's use diamond color as a color in our plot. Adjust the code below, to color the points by diamond color.

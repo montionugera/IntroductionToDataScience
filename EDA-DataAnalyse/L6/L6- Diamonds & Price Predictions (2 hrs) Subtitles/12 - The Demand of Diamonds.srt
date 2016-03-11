@@ -1,0 +1,1 @@
+ Here we're just using Q plot to produce two histograms of price. One on just a regular scale and one on the log ten scale. We're to use this grid extra library to plot both plots in the same window and here's what the result looks like.

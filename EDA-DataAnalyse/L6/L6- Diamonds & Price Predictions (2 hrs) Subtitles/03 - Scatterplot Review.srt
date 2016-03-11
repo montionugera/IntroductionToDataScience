@@ -1,0 +1,1 @@
+ We've seen this kind of code before. All we're doing is we're using qplot to plot the price of diamond against its carat weight. And we're going to trim the top percentile off of both carat and price. If you use the full ggplot syntax, your code will look something like this.

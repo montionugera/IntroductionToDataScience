@@ -216,6 +216,10 @@ ggplot(data = subset(diamonds,carat > 0 && !is.na(carat)),
 # your investigation, and submit it when you are ready.
 # ============================================================================================
 
+library(ggplot2)
+library(xlsx)
+library(dplyr)
+library(tidyr)
 ```
 
 

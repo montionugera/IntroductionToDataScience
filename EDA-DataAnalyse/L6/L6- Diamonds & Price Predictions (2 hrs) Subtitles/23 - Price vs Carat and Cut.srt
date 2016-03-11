@@ -1,0 +1,1 @@
+ Now let's look at cut. Change the code such that you're coloring the points by cut, and don't forget to change the titles.

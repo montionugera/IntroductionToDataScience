@@ -1,0 +1,1 @@
+ In R we can create models using the lm function. We need to supply a formula in the form of y~x. Here, y is the outcome variable and x is the explanatory variable. Which of the following formulas would we use inside the lm function? Price~^. Price to the cube root ~log^ log price ~^ carat to the third, log price ~^ to the 1 3rd, select one.

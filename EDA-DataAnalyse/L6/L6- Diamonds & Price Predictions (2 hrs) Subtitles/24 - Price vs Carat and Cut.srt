@@ -1,0 +1,1 @@
+ You might have made just one change to the code by swapping out the cut variable with the Clarity variable, but I hope you changed your titles as well. Running the code, here is the plot that we get.
