@@ -1,0 +1,143 @@
+---
+title: 'PS4: Gapminder - revisited'
+output: html_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+
+setwd("/Users/montionugera/WorkSpace/Udemy-Datascience/IntroductionToDataScience/EDA-DataAnalyse/L5")
+getwd()
+
+```
+
+
+```{r, echo=FALSE}
+library(ggplot2)
+library(xlsx)
+library(dplyr)
+library(tidyr)
+#
+lung_cancer_data_raw <- read.xlsx("indicator lung female incidence.xlsx", sheetIndex = 1)
+names(lung_cancer_data_raw)
+lung_cancer_data_2002 <- select(lung_cancer_data_raw, one_of(c("Lung.Female.Incidence", "X2002")))
+lung_cancer_data_2002<- rename(lung_cancer_data_2002, country = Lung.Female.Incidence)
+lung_cancer_data_2002<- rename(lung_cancer_data_2002, lung_cancer_no_per_100k = X2002)
+head(lung_cancer_data_2002)
+
+alcohol_consum_data_raw <- read.xlsx("indicator alcohol consumption.xlsx", sheetIndex = 1)
+names(alcohol_consum_data_raw)
+alcohol_consum_data_2005 <- select(alcohol_consum_data_raw, one_of(c("NA.", "X2005")))
+alcohol_consum_data_2005 <- rename(alcohol_consum_data_2005, country = NA.)
+alcohol_consum_data_2005 <- rename(alcohol_consum_data_2005, alcohol_consum = X2005)
+head(alcohol_consum_data_2005)
+
+
+motor_vehicles_per_1k_data_raw <- read.xlsx("indicator Motor vehicles per 1000 population.xlsx", sheetIndex = 1)
+names(motor_vehicles_per_1k_data_raw)
+motor_vehicles_per_1k_data_2007 <- select(motor_vehicles_per_1k_data_raw, one_of(c("Motor.vehicles..not.2.wheelers..per.1.000.population", "X2007")))
+motor_vehicles_per_1k_data_2007 <- rename(motor_vehicles_per_1k_data_2007, country = Motor.vehicles..not.2.wheelers..per.1.000.population)
+motor_vehicles_per_1k_data_2007 <- rename(motor_vehicles_per_1k_data_2007, Motor_per1Kpopulation = X2007)
+head(motor_vehicles_per_1k_data_2007)
+
+
+so2_emis_per_person_data_raw <- read.xlsx("indicator stern SO2percapita.xlsx", sheetIndex = 1)
+names(so2_emis_per_person_data_raw)
+so2_emis_per_person_data_2000 <- select(so2_emis_per_person_data_raw, one_of(c("Country", "X2000")))
+so2_emis_per_person_data_2000 <- rename(so2_emis_per_person_data_2000, country = Country)
+so2_emis_per_person_data_2000 <- rename(so2_emis_per_person_data_2000, so2_emis_per_person = X2000)
+head(so2_emis_per_person_data_2000)
+
+
+coal_consum_data_raw <- read.xlsx("Coal Consumption per capita.xlsx", sheetIndex = 1)
+names(coal_consum_data_raw)
+coal_consum_data_2002 <- select(coal_consum_data_raw, one_of(c("Coal.Consumption.per.person..tonnes.oil.equivalent.", "X2002")))
+coal_consum_data_2002 <- rename(coal_consum_data_2002, country = Coal.Consumption.per.person..tonnes.oil.equivalent.)
+coal_consum_data_2002 <- rename(coal_consum_data_2002, coal_consum_per_person = X2002)
+head(coal_consum_data_2002)
+
+
+forest_cov_data_raw <- read.xlsx("indicator_forest coverage.xlsx", sheetIndex = 1)
+names(forest_cov_data_raw)
+forest_cov_data_2005 <- select(forest_cov_data_raw, one_of(c("Forest.coverage....", "X2005")))
+forest_cov_data_2005 <- rename(forest_cov_data_2005, country = Forest.coverage....)
+forest_cov_data_2005 <- rename(forest_cov_data_2005, forest_cov = X2005)
+head(forest_cov_data_2005)
+
+prevalence_tobbacco_female <- read.xlsx("indicator_prevalence of current tobacco use among adults (%) female.xlsx", sheetIndex = 1)
+names(prevalence_tobbacco_female)
+prevalence_tobbacco_female_2002 <- select(prevalence_tobbacco_female, one_of(c("Prevalence.of.current.tobacco.use.among.adults....15.years......female", "X2002")))
+prevalence_tobbacco_female_2002 <- rename(prevalence_tobbacco_female_2002, country = Prevalence.of.current.tobacco.use.among.adults....15.years......female)
+prevalence_tobbacco_female_2002 <- rename(prevalence_tobbacco_female_2002, prevalence_tobbacco_female = X2002)
+head(prevalence_tobbacco_female_2002)
+
+
+data_all <- merge(lung_cancer_data_2002, alcohol_consum_data_2005)
+data_all  <- merge(data_all, motor_vehicles_per_1k_data_2007)
+data_all  <- merge(data_all, so2_emis_per_person_data_2000)
+data_all  <- merge(data_all, coal_consum_data_2002)
+data_all  <- merge(data_all, forest_cov_data_2005)
+data_all  <- merge(data_all, prevalence_tobbacco_female_2002)
+data_all <- subset(data_all,!is.na(lung_cancer_no_per_100k) & !is.na(alcohol_consum) & !is.na(Motor_per1Kpopulation) & !is.na(so2_emis_per_person) & !is.na(coal_consum_per_person) & !is.na(forest_cov) &  !is.na(prevalence_tobbacco_female))
+head(data_all)
+library(GGally)
+theme_set(theme_minimal(20))
+set.seed(1111)
+data_all_subset <-data_all[,c(2:8)]
+names(data_all)
+names(data_all_subset)
+nrow(data_all_subset)
+ggpairs(data_all_subset[sample.int(nrow(data_all_subset),40),])
+
+
+
+
+data_all <- merge(lung_cancer_data_2002, alcohol_consum_data_2005)
+data_all  <- merge(data_all, motor_vehicles_per_1k_data_2007)
+data_all  <- merge(data_all, coal_consum_data_2002)
+data_all  <- merge(data_all, prevalence_tobbacco_female_2002)
+data_all <-  subset(data_all,!is.na(lung_cancer_no_per_100k) & !is.na(alcohol_consum) & !is.na(Motor_per1Kpopulation) & !is.na(prevalence_tobbacco_female) )
+head(data_all)
+```
+
+
+```{r, echo=FALSE}
+ggplot(data_all,aes(x = alcohol_consum , y = lung_cancer_no_per_100k))+geom_point(alpha = 0.5) + geom_smooth()
+ggplot(data_all,aes(x = prevalence_tobbacco_female , y = lung_cancer_no_per_100k))+geom_point(alpha = 0.5)+ geom_smooth()
+ggplot(data_all,aes(x = Motor_per1Kpopulation , y = lung_cancer_no_per_100k))+geom_point(alpha = 0.5)+ geom_smooth()
+
+
+```
+
+
+```{r, echo=FALSE}
+ggplot(data_all,aes(x = Motor_per1Kpopulation)) + geom_histogram() + scale_x_sqrt(lim = c(0,800), breaks = seq(0,900,20))
+
+data_all$Motor_per1Kpopulation.bucket = cut(data_all$Motor_per1Kpopulation,c(0,100,460,800))
+
+ggplot(data =data_all,
+       aes(x=prevalence_tobbacco_female ,y= lung_cancer_no_per_100k,
+           color = factor(Motor_per1Kpopulation.bucket)))+
+  geom_point()+scale_x_sqrt(lim = c(0,40), breaks = seq(0,40,3))+
+  scale_color_brewer(type = 'div')
+
+data_all$prevalence_tobbacco_female.bucket = cut(data_all$prevalence_tobbacco_female,c(0,4,15,45))
+
+ggplot(data =data_all,
+       aes(x=prevalence_tobbacco_female.bucket ,y= lung_cancer_no_per_100k,
+           color = factor(Motor_per1Kpopulation.bucket)))+
+  geom_point(alpha= 0.8)+scale_y_sqrt()
+  scale_color_brewer(type = 'qual')
+
+data_all$alcohol_consum.bucket = cut(data_all$alcohol_consum,c(0,5,10,20))
+
+ggplot(data =data_all,
+       aes(x=prevalence_tobbacco_female.bucket ,y= lung_cancer_no_per_100k,
+           color = factor(Motor_per1Kpopulation.bucket)))+
+  geom_point(alpha= 1)+scale_y_sqrt(breaks = seq(0,30,3)) + facet_wrap(~alcohol_consum.bucket)+
+  scale_color_brewer(type = 'qual')
+
+ ```

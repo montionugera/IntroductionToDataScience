@@ -1,0 +1,865 @@
+RedwineQuality by Pasit Nusso
+=================================
+
+output:
+  html_document:
+    fig_width: 6
+    fig_height: 4
+
+
+# Analysis
+```{r global_options, include=FALSE} 
+knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/', 
+                      echo=FALSE, warning=FALSE, message=FALSE)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
+# Load all of the packages that you end up using
+# in your analysis in this code chunk.
+
+# Notice that the parameter "echo" was set to FALSE for this code chunk.
+# This prevents the code from displaying in the knitted HTML output.
+# You should set echo=FALSE for all code chunks in your file.
+
+library(ggplot2)
+library(GGally)
+library(gridExtra)
+```
+   
+```{r echo=FALSE, Load_the_Data}
+# Load the Data
+
+setwd("~/WorkSpace/Udemy-Datascience/IntroductionToDataScience/P4-EDA/")
+redwine_data <- read.csv(file = "wineQualityReds.csv")
+
+redwine_data$X <- NULL
+```
+
+
+# Univariate Plots Section
+
+```{r echo=FALSE}
+
+str(redwine_data)
+summary(redwine_data)
+
+```
+Most wine's quality is 6 and range is 3 to 8. The mean of alcohol is 10.42.
+
+```{r echo=FALSE, warning=FALSE, fixed.acidity}
+feature<-redwine_data$fixed.acidity
+ggplot(redwine_data)+geom_histogram(aes(x =feature),binwidth = 0.5)+
+    scale_x_continuous(lim = c(4,16), breaks = seq(4,16,0.5))+
+  xlab('fixed.acidity (g / cm^3)') + ylab('Number of observations')
+summary(feature)
+
+```
+The volatile.acidity distribution is normal. The median is 7.9.
+
+```{r echo=FALSE, warning=FALSE, volatile.acidity}
+feature<-redwine_data$volatile.acidity
+ggplot(redwine_data)+geom_histogram(aes(x =feature),binwidth = 0.02)+
+  scale_x_continuous(lim = c(0,1.6), breaks = seq(0,1.6,0.05))+
+  xlab('volatile.acidity (g / cm^3)') + ylab('Number of observations')
+summary(feature)
+
+```
+The volatile.acidity distribution is bimodal with the volatile.acidity peaking 
+at 0.4, 0.5 and 0.6.
+ 
+ 
+```{r echo=FALSE, warning=FALSE, citric.acid}
+
+feature<-redwine_data$citric.acid
+ggplot(redwine_data)+geom_histogram(aes(x =feature),binwidth = 0.01)+
+  scale_x_continuous(lim = c(0,0.75), breaks = seq(0,0.75,0.02))+
+  xlab('citric.acid (g / dm^3)') + ylab('Number of observations')
+summary(feature)
+table(feature)
+```
+ The distribution for citric acid appears bimodal with the peaking at 0, 0.24, 
+ 0.49.
+ 
+```{r echo=FALSE, warning=FALSE, residual.sugar}
+
+feature<-redwine_data$residual.sugar
+ggplot(redwine_data)+geom_histogram(aes(x =feature),binwidth = 0.1)+
+  xlab('residual.sugar (g / cm^3)') + ylab('Number of observations')
+summary(feature)
+table(feature)
+```
+```{r echo=FALSE, warning=FALSE, residual.sugarlog.10}
+
+feature<-redwine_data$residual.sugar
+ggplot(redwine_data)+geom_histogram(aes(x =feature),binwidth = 0.024)+
+  scale_x_log10()+
+  xlab('residual.sugar (g / cm^3)') + ylab('Number of observations')
+summary(feature)
+table(feature)
+quantile(feature,.9)
+```
+Transform the long tail data to better understand the distribution of 
+residual.sugar
+The distribution for residual.sugar appears to be right skewed. Most of 
+them (90%) residual.sugar less  than 3.6 (4.5 g / cm^3 are considered sweet).
+ 
+```{r echo=FALSE, warning=FALSE, chlorides}
+
+feature<-redwine_data$chlorides
+ggplot(redwine_data)+geom_histogram(aes(x =feature),binwidth = 0.002)+
+  xlab('chlorides (g / cm^3)') + ylab('Number of observations')
+
+```
+
+```{r echo=FALSE, warning=FALSE, chlorides.log.10}
+
+ggplot(redwine_data)+geom_histogram(aes(x =feature),binwidth = 0.024)+
+  scale_x_log10()+
+  xlab('chlorides (g / cm^3)') + ylab('Number of observations')
+summary(feature)
+quantile(feature,.95)
+
+```
+Transform the long tail data to better understand the distribution of chlorides
+The distribution for chlorides appears to be right skewed. Most of them (95%) 
+chlorides less than 0.1261 .
+
+
+```{r echo=FALSE, warning=FALSE, free.sulfur.dioxide}
+
+feature<-redwine_data$free.sulfur.dioxide
+ggplot(redwine_data)+geom_histogram(aes(x =feature),binwidth = 2)+
+  xlab('free.sulfur.dioxide  (mg / dm^3)') + ylab('Number of observations')
+summary(feature)
+quantile(feature,.95)
+
+```
+```{r echo=FALSE, warning=FALSE, sqrt.free.sulfur.dioxide }
+
+ggplot(redwine_data)+geom_histogram(aes(x =feature),binwidth = 0.4)+
+  scale_x_sqrt(lim = c(1,80),breaks = seq(0,100,1))+
+  xlab('free.sulfur.dioxide (mg / dm^3)') + ylab('Number of observations')
+summary(feature)
+quantile(feature,.95)
+
+```
+Transform the long tail data to better understand the distribution of 
+free.sulfur.dioxide
+The free.sulfur.dioxide distribution is bimodal with the free.sulfur.dioxide 
+peaking at 7 and 17.
+ 
+
+
+```{r echo=FALSE, warning=FALSE, total.sulfur.dioxide}
+
+feature<-redwine_data$total.sulfur.dioxide
+ggplot(redwine_data)+geom_histogram(aes(x =feature),binwidth = 2)+
+  xlab('total.sulfur.dioxide  (mg / dm^3)') + ylab('Number of observations')
+summary(feature)
+quantile(feature,.95)
+
+```
+```{r echo=FALSE, warning=FALSE, total.sulfur.dioxidelog.10}
+?trans_breaks
+ggplot(redwine_data)+geom_histogram(aes(x =feature),binwidth = 0.1)+
+  scale_x_log10(lim = c(1,200),breaks = seq(0,200,2))+
+  xlab('total.sulfur.dioxide (mg / dm^3)') + ylab('Number of observations')
+summary(feature)
+quantile(feature,.95)
+
+```
+Transform the long tail data to better understand the distribution of 
+total.sulfur.dioxide
+The total.sulfur.dioxide distribution is normal.
+ 
+
+```{r echo=FALSE, warning=FALSE, pH}
+
+feature<-redwine_data$pH
+ggplot(redwine_data)+geom_histogram(aes(x =feature),binwidth = 0.02)+
+  xlab('pH)') + ylab('Number of observations')
+summary(feature)
+table(feature)
+```
+The pH distribution is normal.
+
+```{r echo=FALSE, warning=FALSE, density}
+
+feature<-redwine_data$density
+ggplot(redwine_data)+geom_histogram(aes(x =feature),binwidth = 0.001)+
+  scale_x_continuous(lim = c(0.990,1.005), breaks = seq(0.990,1.005,0.0005))+
+  xlab('Density (g / cm^3)') + ylab('Number of observations')
+summary(feature)
+```
+ The distribution for density acid appears to be normal and the different 
+ between min and max is only 0.014. ( different between alcohol and water 
+ is 0.22)
+ 
+ Ref : https://en.wikipedia.org/wiki/Ethanol
+ 
+```{r echo=FALSE, warning=FALSE, sulphates}
+
+feature<-redwine_data$sulphates
+ggplot(redwine_data)+geom_histogram(aes(x =feature),binwidth = 0.04)+
+  scale_x_continuous(lim = c(0.3,2.0), breaks = seq(0.3,2.0,0.04))+
+  xlab('Sulphates (potassium sulphate - g / dm3)') + 
+  ylab('Number of observations')
+
+
+```
+
+```{r echo=FALSE, warning=FALSE, log10.sulphates }
+
+feature<-redwine_data$sulphates
+
+ggplot(redwine_data)+geom_histogram(aes(x =feature),binwidth = 0.04)+
+  scale_x_log10()+
+  xlab('Sulphates (potassium sulphate - g / dm3)') + 
+  ylab('Number of observations')
+summary(feature)
+quantile(feature,.95)
+```
+Transform the long tail data to better understand the distribution of sulphates.
+The distribution for sulphates appears to be normal. Most of them (95%) 
+sulphates less than 0.93.
+
+ 
+```{r echo=FALSE, warning=FALSE, alcohol}
+
+feature<-redwine_data$alcohol
+ggplot(redwine_data)+geom_histogram(aes(x =feature),binwidth = 0.1)+
+  scale_x_continuous(lim = c(8,13), breaks = seq(8,13,0.2))+
+  xlab('alcohol (% by volume)') + ylab('Number of observations')
+
+summary(feature)
+```
+
+The distribution for alcohol appears to be right skewed.
+
+
+```{r echo=FALSE, warning=FALSE, quality}
+
+feature<-redwine_data$quality
+ggplot(redwine_data)+geom_histogram(aes(x =feature),binwidth = 1)+
+  xlab('WineQuality') + ylab('Number of observations')
+
+table(feature)
+nrow(subset(redwine_data,quality >4 & quality < 8)) / nrow(redwine_data)
+```
+
+Most of data's wine qulity is between 5 to 7 (94.9 %). I think I will covert 
+this feature to factor for Multivariate Analysis.
+
+
+
+# Univariate Analysis
+ 
+### What is the structure of your dataset?
+
+ANS :
+There are 1599 wine in the data set with 12 features.
+```{r echo=FALSE}
+str(redwine_data)
+summary(redwine_data)
+head(redwine_data)
+```
+
+Input variables (based on physicochemical tests):
+1. - fixed acidity (tartaric acid - g / dm^3): most acids involved with wine or 
+fixed or nonvolatile (do not evaporate readily)
+2. - *volatile acidity (acetic acid - g / dm^3): the amount of acetic acid in 
+wine, which at too high of levels can lead to an unpleasant, vinegar taste
+3. - *citric acid (g / dm^3): found in small quantities, citric acid can add 
+'freshness' and flavor to wines
+4. - residual sugar (g / dm^3): the amount of sugar remaining after fermentation
+stops, it's rare to find wines with less than 1 gram/liter and wines with 
+greater than 45 grams/liter are considered sweet
+5. - chlorides (sodium chloride - g / dm^3): the amount of salt in the wine
+6. - free sulfur dioxide (mg / dm^3): the free form of SO2 exists in equilibrium
+between molecular SO2 (as a dissolved gas) and bisulfite ion; it prevents
+microbial growth and the oxidation of wine
+7. - *total sulfur dioxide (mg / dm^3): amount of free and bound forms of S02;
+in low concentrations, SO2 is mostly undetectable in wine, but at free SO2
+concentrations over 50 ppm, SO2 becomes evident in the nose and taste of wine
+8. - *density (g / cm^3)
+9. - pH: describes how acidic or basic a wine is on a scale from 0 (very acidic)
+to 14 (very basic); most wines are between 3-4 on the pH scale
+10. - sulphates (potassium sulphate - g / dm3): a wine additive which can
+contribute to sulfur dioxide gas (S02) levels, wich acts as an antimicrobial
+and antioxidant
+11. - alcohol (% by volume): the percent alcohol content of the wine
+
+Output variable (based on sensory data): 
+12. - quality (score between 0 and 10)
+
+
+### What is/are the main feature(s) of interest in your dataset?
+ANS: The main feature of interest is wine's quality. I would like to investigate
+which variable(s) effect the wine quality.
+
+
+
+### What other features in the dataset do you think will help support your
+investigation into your feature(s) of interest?
+ANS: I think smell taste touch and addictive content that will effect the wine's
+quality so the features that I choose for investigation is :
+
+1) sulphates
+2) volatile acidity
+3) citric acidity
+4) chlorides 
+6) sum of acid (tartaric acid + citric acid ) as "sourness"
+5) alcohol
+
+```{r echo=FALSE}
+#https://en.wikipedia.org/wiki/Taste
+redwine_data$sourness = redwine_data$fixed.acidity*0.7 + 
+  redwine_data$citric.acid*0.46 
+head(redwine_data)
+```
+
+
+### Did you create any new variables from existing variables in the dataset?
+
+Yes, I create "sourness"  from fixed.acidity and citric.acid that represent the 
+sourness of wine.
+
+### Of the features you investigated, were there any unusual distributions? Did 
+you perform any operations on the data to tidy, adjust, or change the form of 
+the data? If so, why did you do this?
+
+
+ANS: The distribution for citric acid, volatile.acidity and free.sulfur.dioxide 
+appears bimodal and I tidies the data by remove X feature  that I am not 
+interested and transform fixed.acidity and citric.acid to sourness for next 
+investigation.
+
+
+# Bivariate Plots Section
+
+```{r echo=FALSE }
+
+set.seed(1112)
+data_all_subset <-redwine_data
+?ggpairs
+sample.int(nrow(data_all_subset),100)
+
+ggpairs(data_all_subset, 
+        upper = list(continuous = wrap(ggally_cor, size = 6)))+ 
+  theme(axis.line=element_blank(),
+        axis.text=element_blank(),
+        axis.ticks=element_blank())
+ggcorr(data_all_subset, nbreaks = 4, palette = "RdGy", label = TRUE, 
+       label_size = 6, label_color = "white")
+```
+
+Top correlation values for quality is :
+1. alcohol : 0.476
+2. volatile.acidity : -0.391
+3. sulphates : 0.251
+4. citric acid : 0.226
+
+```{r  echo=FALSE}
+build_bivarate_plot <- function(data,x, y, ylab,xlab) {
+  return (ggplot(data = data, aes(x = x, y = y)) + geom_boxplot() +  
+            ylab(ylab) + xlab(xlab)
+  )
+}
+redwine_data$wine_rating <- ifelse(redwine_data$quality <= 5, 'normal', 
+                                   ifelse( redwine_data$quality < 7,
+                                           'good', 'excellent'))
+redwine_data$wine_rating <- ordered(redwine_data$wine_rating,levels = 
+                                      c('normal', 'good', 'excellent'))
+```
+
+```{r  echo=FALSE, WineQuality.vs.volatile.acidity}
+feature <- redwine_data$volatile.acidity
+feature_name <- 'volatile.acidity (g / cm^3)'
+volatile.acid.V.wine_rating.plot<- build_bivarate_plot(
+  redwine_data, redwine_data$wine_rating, feature ,
+  feature_name,'Wine Rating')+
+  scale_y_continuous(lim = c(0,1.6), breaks = seq(0,1.6,0.05))
+volatile.acid.V.wine_rating.plot
+with(redwine_data, cor.test(feature, quality, method = 'pearson'))
+
+```
+### WineQuality.vs.citric.acid
+```{r  echo=FALSE }
+feature <- redwine_data$citric.acid
+feature_name <- 'citric.acid (g / cm^3)'
+citric.acid.V.wine_rating.plot<- build_bivarate_plot(
+  redwine_data, redwine_data$wine_rating, feature ,feature_name,'Wine Rating')
+citric.acid.V.wine_rating.plot
+with(redwine_data, cor.test(feature, quality, method = 'pearson'))
+
+```
+
+### WineQuality.vs.sulphates
+```{r  echo=FALSE }
+feature <- redwine_data$sulphates
+feature_name <- 'Potassium Sulphate (g /dm^3)'
+sulphates.V.wine_rating.plot<-build_bivarate_plot(
+  redwine_data, redwine_data$wine_rating, feature ,feature_name,'Wine Rating')+
+  scale_y_continuous(lim = c(0.25,1), breaks = seq(0.25,1,0.05))
+sulphates.V.wine_rating.plot
+with(redwine_data, cor.test(feature, quality, method = 'pearson'))
+
+
+```
+
+
+### WineQuality.vs.alcohol
+```{r  echo=FALSE }
+feature <- redwine_data$alcohol
+feature_name <- 'alcohol (% by volume)'
+alcohol.V.wine_rating.plot<-build_bivarate_plot(
+  redwine_data, redwine_data$wine_rating, feature ,feature_name,'Wine Rating')+
+  scale_y_continuous(lim = c(8,15), breaks = seq(8,15,0.1))
+with(redwine_data, cor.test(feature, quality, method = 'pearson'))
+alcohol.V.wine_rating.plot
+```
+
+
+# Bivariate Analysis
+
+### Talk about some of the relationships you observed in this part of the 
+investigation. How did the feature(s) of interest vary with other features in 
+the dataset?
+ANS: From the plots and correlation values sulphates, citric acid acidity, 
+alcohol positively relate with quality but volatile acidity negatively relate 
+with quality.
+
+Alcohol sulphates and volatile acidity 's plot show the different between 3 wine
+rating of wine very well but citric acid show the different between normal 
+and good wine poorly.
+
+
+### Did you observe any interesting relationships between the other features 
+(not the main feature(s) of interest)?
+
+```{r echo=FALSE,warning=FALSE, Multivariate_Plots}
+
+build_bivarate_plot2 <- function(data,x, y, xlab,ylab) {
+  return (
+          ggplot(aes(x = x, y = citric.acid), data = data) +
+            geom_point( alpha =  1/2 ) +
+            xlab(xlab) + ylab(ylab)+
+            geom_smooth()
+  )
+}
+
+featureX <- redwine_data$volatile.acidity
+featureX_name <- 'volatile.acidity (g/cm^3)'
+featureY <- redwine_data$citric.acid
+featureY_name <- 'citric.acid (g/cm^3)'
+
+build_bivarate_plot2(redwine_data, featureX, featureY ,featureX_name , 
+                     featureY_name)+
+  scale_x_continuous(lim = c(0.1,1.2), breaks = seq(0.1,1.2,0.1))+
+  scale_y_continuous(lim = c(0,0.9), breaks = seq(0,0.9,0.1))
+
+with(redwine_data, cor.test(featureX, featureY, method = 'pearson'))
+
+featureX <- redwine_data$sulphates
+featureX_name <- 'Potassium Sulphate (g /dm^3)'
+featureY <- redwine_data$citric.acid
+featureY_name <- 'citric.acid (g/cm^3)'
+
+build_bivarate_plot2(redwine_data, featureX, featureY ,featureX_name , 
+                     featureY_name)+
+  scale_x_continuous(lim = c(0.1,1.2), breaks = seq(0.1,1.2,0.1))
+with(redwine_data, cor.test(featureX, featureY, method = 'pearson'))
+
+featureX <- redwine_data$alcohol
+featureX_name <- 'alcohol'
+featureY <- redwine_data$citric.acid
+featureY_name <- 'citric.acid (g/cm^3)'
+
+build_bivarate_plot2(redwine_data, featureX, featureY ,featureX_name , 
+                     featureY_name)
+with(redwine_data, cor.test(featureX, featureY, method = 'pearson'))
+
+
+```
+ANS: 
+I found that citric acid and volatile acidity very correlate.  
+  
+#### High Corelation:  
+citric acid and volatile acidity : -0.5524957  
+citric acid and sulphates acidity : 0.31277   
+  
+#### Low Corelation:  
+citric acid and alcohol acidity : 0.1099032  
+  
+
+### What was the strongest relationship you found?  
+ANS: For feature of interest alcohol percentage has highest corelation value.
+(0.476)  
+     For every pair of features free.sulfur.dioxide and total.sulfur.dioxide 
+     has highest corelation value. (0.66  
+  
+
+
+# Multivariate Plots Section
+
+
+First I need to prepare alcohol.level for multivariate plot.
+```{r echo=FALSE}
+
+redwine_data$alcohol.level <- ifelse(redwine_data$alcohol < 10, 
+                                     'low alcohol', 
+                                     ifelse( redwine_data$alcohol < 11.5, 
+                                             'medium-low alcohol', 
+                                             'medium alcohol'))
+redwine_data$alcohol.level <- ordered(redwine_data$alcohol.level,levels = 
+                                        c('low alcohol', 'medium-low alcohol', 
+                                          'medium alcohol'))
+
+```
+
+```{r echo=FALSE }
+
+ggplot(aes(x = volatile.acidity, y = alcohol,color = wine_rating), data = 
+         redwine_data) +
+  #geom_point( alpha =  1/2 ) +
+  xlab('volatile.acidity (g/cm^3)') + ylab('% alcohol')+
+  scale_x_continuous(lim = c(0,1.6), breaks = seq(0,1.6,0.05))+
+  geom_point(alpha = 1/3,size =5)
+```
+  
+From the plot show that excellent wine mostly stay on the top left, good wine 
+stay in the middle and normal wine stay in the bottom right.
+
+
+
+```{r echo=FALSE,warning=FALSE }
+
+wine_rating.v.alcohol.level.v.volatile.acidity.plot <- ggplot(
+  aes(x = volatile.acidity ,fill = wine_rating), data = redwine_data) +
+  #geom_point( alpha =  1/2 ) +
+  xlab('volatile.acidity (g/cm^3)') + ylab('Number of observations')+  
+   scale_fill_brewer(type = 'qual')+
+  scale_x_continuous(lim = c(0.1,1), breaks = seq(0.1,1,0.05))+
+  geom_histogram()+facet_wrap(~alcohol.level,ncol = 1, scales="free_y")
+wine_rating.v.alcohol.level.v.volatile.acidity.plot
+```
+  
+Wine rating.vs.alcohol.level.vs.volatile.acidity plot shows that :
+  
+excellent wine ratio in alcohol grade "medium" on volatile.acidity range 
+0.25-0.4 is very high.
+
+```{r echo=FALSE,warning=FALSE }
+names(redwine_data)
+wine_rating.v.alcohol.level.v.citric.acid.plot <- ggplot(
+  aes(x = citric.acid ,fill = wine_rating), data = redwine_data) +
+  #geom_point( alpha =  1/2 ) +
+  xlab('citric.acid (g/cm^3)') + ylab('Number of observations')+  
+  scale_fill_brewer(type = 'qual')+
+  scale_x_continuous(lim = c(0,0.9), breaks = seq(0,0.9,0.1))+
+  geom_histogram()+facet_wrap(~alcohol.level,ncol = 1, scales="free_y")
+wine_rating.v.alcohol.level.v.citric.acid.plot
+```
+  
+Wine rating.vs.alcohol.level.vs.citric.acid plot shows that excellent wine ratio
+in alcohol grade "medium" on citric.acid at 0 and 0.4 is very high.
+
+
+```{r echo=FALSE,warning=FALSE }
+names(redwine_data)
+wine_rating.v.alcohol.level.v.total.sulfur.dioxide.plot <- ggplot(
+  aes(x = total.sulfur.dioxide ,fill = wine_rating), data = redwine_data) +
+  #geom_point( alpha =  1/2 ) +
+  xlab('total.sulfur.dioxide (mg/dm^3)') + ylab('Number of observations')+ 
+  scale_fill_brewer(type = 'qual')+
+  geom_histogram()+facet_wrap(~alcohol.level,ncol = 1, scales="free_y")+
+  scale_x_continuous(lim = c(0,170), breaks = seq(0,170,5))
+wine_rating.v.alcohol.level.v.total.sulfur.dioxide.plot
+```
+  
+Wine rating.vs.alcohol.level.vs.total.sulfur.dioxide plot shows that excellent 
+wine ratio in alcohol grade "medium" on total.sulfur.dioxide at 5-30 is very 
+high.
+
+
+```{r echo=FALSE,warning=FALSE, wine.rating.vs.alcohol.level.vs.sulphates }
+
+wine_rating.v.alcohol.level.v.sulphates.plot <- ggplot(
+  aes(x = sulphates ,fill = wine_rating), data = redwine_data) +
+  #geom_point( alpha =  1/2 ) +
+  xlab('Potassium Sulphate (g /dm^3)') + ylab('Number of observations')+  
+  scale_fill_brewer(type = 'qual')+
+  scale_x_continuous(lim = c(0.35,1), breaks = seq(0.35,1,0.05))+
+  geom_histogram()+facet_wrap(~alcohol.level,ncol = 1, scales="free_y")
+wine_rating.v.alcohol.level.v.sulphates.plot
+
+```
+  
+Wine rating.vs.alcohol.level.vs.sulphates plot shows that excellent wine ratio 
+in alcohol grade "medium" on sulphates range 0.7-0.9 is very high.
+
+
+```{r echo=FALSE,warning=FALSE  }
+
+wine_rating.v.alcohol.level.v.sourness.chlorides.plot <- ggplot(
+  aes(x = sourness, y = chlorides,color = wine_rating), data = redwine_data) +
+  #geom_point( alpha =  1/2 ) +
+  xlab('sourness') + ylab('chlorides')+
+  geom_point(alpha = 1/3,size =3)+facet_wrap(~alcohol.level,ncol = 1)
+wine_rating.v.alcohol.level.v.sourness.chlorides.plot
+  
+
+```
+    
+Pattern is not noticable here.  
+
+
+# Multivariate Analysis
+
+### Talk about some of the relationships you observed in this part of the 
+investigation. Were there features that strengthened each other in terms of 
+looking at your feature(s) of interest?
+
+From the plots , show that alcohol feature is the highest impact feature.  
+
+Wine rating.vs.alcohol.level.vs.volatile.acidity plot shows that excellent wine 
+ratio in alcohol grade "medium" on volatile.acidity range 0.25-0.4 is very high.  
+Wine rating.vs.alcohol.level.vs.citric.acid plot shows that excellent wine ratio
+in alcohol grade "medium" on citric.acid at 0 and 0.35-0.5 is very high.  
+Wine rating.vs.alcohol.level.vs.total.sulfur.dioxide plot shows that excellent
+wine ratio in alcohol grade "medium" on total.sulfur.dioxide at 5-30 is very 
+high.  
+Wine rating.vs.alcohol.level.vs.sulphates plot shows that excellent wine ratio 
+in alcohol grade "medium" on sulphates range 0.7-0.9 is very high.  
+Win rating.vs.alcohol.level.vs.sourness.vs.chlorides shows that there hardly to 
+determine wine quality by tongue (chorides and sourness).  
+
+
+### Were there any interesting or surprising interactions between features?  
+
+It is very surprise that smell(total.sulfur.dioxide) has influnce over the wine 
+rating but taste(chorides and sourness) has not.  
+
+
+------
+
+# Final Plots and Summary
+
+### Plot One 
+  
+##### Alcohol Distribution
+
+
+```{r echo=FALSE, Plot_One : Alcohol.distribution}
+
+feature<-redwine_data$alcohol
+ggplot(redwine_data)+geom_histogram(aes(x =feature),binwidth = 0.2, 
+                                    color = I('black'), fill = I('#F79420') )+
+  scale_x_continuous(lim = c(8,13), breaks = seq(8,13,0.2))+
+  xlab('Alcohol (% by volume)') + ylab('Number of observations')
+
+summary(redwine_data$alcohol)
+
+```
+ 
+### Description One
+
+ The distribution for alcohol appears right skewed with the peaking at 9.5 % and
+ slope down to 13.0 % with verry few of 8.0 % to 9.0 %, may be the demand of 
+ wine are tend to be lower on higher percent alcohol and peak at 9.5 %.
+
+### Plot Two
+
+#### How does each features influence the wine rating ?
+```{r echo=FALSE, Bivariate_Plots}
+grid.arrange(alcohol.V.wine_rating.plot,sulphates.V.wine_rating.plot,
+             citric.acid.V.wine_rating.plot,volatile.acid.V.wine_rating.plot)
+
+names(redwine_data)
+data_all_subset <-redwine_data[,c(11,10,3,2,12)]
+set.seed(1113)
+sample.int(nrow(data_all_subset),100)
+
+ggpairs(data_all_subset, 
+        upper = list(continuous = wrap(ggally_cor, size = 6)))+ 
+  theme(axis.line=element_blank(),
+        axis.text=element_blank(),
+        axis.ticks=element_blank())
+ggcorr(data_all_subset, nbreaks = 4, palette = "RdGy", label = TRUE, 
+       label_size = 6, label_color = "white")
+
+cor.test(redwine_data$quality, redwine_data$alcohol)
+cor.test(redwine_data$quality, redwine_data$volatile.acidity)
+cor.test(redwine_data$quality, redwine_data$sulphates)
+cor.test(redwine_data$quality, redwine_data$citric.acid)
+```
+
+### Description Two
+
+Alcohol percentage, Sulphates, Volatile acidity correlate with wine rating 
+positively but Volatile acidity correlate negatively.  
+The alcohol variance in wine rating good and excellent are much larger than 
+normal.  
+The citric acid variance in wine rating good and normal are much larger than 
+excellent.  
+
+
+Top correlation values for quality is :
+1. alcohol : 0.476
+2. volatile.acidity : -0.391
+3. sulphates : 0.251
+4. citric acid : 0.226
+
+Sulprisingly, volatile.acidity and citric acid is highly correlate negtively.
+
+
+
+### Plot Three
+
+#### Where is excellent wine ?
+level?
+```{r echo=FALSE,warning=FALSE,  Plot_Three}
+
+print_cor_value <- function(redwin_data_at.alcoholitem,alcohol.level.item,
+                            i_feature_x_name, i_feature_x,i_feature_y) {
+    title <- paste("On",alcohol.level.item,"level data -",
+                    "correlation of wine quality","vs",i_feature_x_name,
+                    "is :",cor.test(i_feature_x,i_feature_y)$estimate, sep=" ")
+    #print( title)
+    print( paste("On",alcohol.level.item," level data - wine rating","vs",
+                 i_feature_x_name, sep=" "))
+    print(by(i_feature_x, redwin_data_at.alcoholitem$wine_rating, summary))
+}
+
+alcohol.level.list <- c("low alcohol", "medium-low alcohol", "medium alcohol")
+wine_rating.v.alcohol.level.v.volatile.acidity.plot
+
+i_feature_x_name = 'volatile.acidity'
+alcohol.level.item = 'any alcohol'
+redwin_data_at.alcoholitem <- redwine_data
+i_feature_x <- redwine_data$volatile.acidity
+i_feature_y  <- redwine_data$quality
+
+print_cor_value(redwin_data_at.alcoholitem,alcohol.level.item,
+                i_feature_x_name,i_feature_x,i_feature_y)
+for (alcohol.level.item in alcohol.level.list) {
+    redwin_data_at.alcoholitem <- subset(redwine_data,
+                 redwine_data$alcohol.level == alcohol.level.item)
+    
+    i_feature_x <- redwin_data_at.alcoholitem$volatile.acidity
+    i_feature_y  <- redwin_data_at.alcoholitem$quality
+    
+    print_cor_value(redwin_data_at.alcoholitem,alcohol.level.item,
+                    i_feature_x_name,i_feature_x,i_feature_y)
+}
+
+
+wine_rating.v.alcohol.level.v.citric.acid.plot  
+
+
+i_feature_x_name = 'citric.acid'
+alcohol.level.item = 'any alcohol'
+redwin_data_at.alcoholitem <- redwine_data
+i_feature_x <- redwine_data$citric.acid
+i_feature_y  <- redwine_data$quality
+print_cor_value(redwin_data_at.alcoholitem,alcohol.level.item,
+                i_feature_x_name,i_feature_x,i_feature_y)
+for (alcohol.level.item in alcohol.level.list) {
+    redwin_data_at.alcoholitem <- subset(redwine_data,
+                 redwine_data$alcohol.level == alcohol.level.item)
+    
+    i_feature_x <- redwin_data_at.alcoholitem$citric.acid
+    i_feature_y  <- redwin_data_at.alcoholitem$quality
+    
+    print_cor_value(redwin_data_at.alcoholitem,alcohol.level.item,
+                    i_feature_x_name,i_feature_x,i_feature_y)
+}
+
+wine_rating.v.alcohol.level.v.total.sulfur.dioxide.plot  
+
+
+i_feature_x_name = 'total.sulfur.dioxide'
+alcohol.level.item = 'any alcohol'
+redwin_data_at.alcoholitem <- redwine_data
+i_feature_x <- redwine_data$total.sulfur.dioxide
+i_feature_y  <- redwine_data$quality
+print_cor_value(redwin_data_at.alcoholitem,alcohol.level.item,
+                i_feature_x_name,i_feature_x,i_feature_y)
+for (alcohol.level.item in alcohol.level.list) {
+    redwin_data_at.alcoholitem <- subset(redwine_data,
+                 redwine_data$alcohol.level == alcohol.level.item)
+    
+    i_feature_x <- redwin_data_at.alcoholitem$total.sulfur.dioxide
+    i_feature_y  <- redwin_data_at.alcoholitem$quality
+    
+    print_cor_value(redwin_data_at.alcoholitem,alcohol.level.item,
+                    i_feature_x_name,i_feature_x,i_feature_y)
+}
+
+wine_rating.v.alcohol.level.v.sulphates.plot  
+
+
+
+i_feature_x_name = 'sulphates'
+alcohol.level.item = 'any alcohol'
+redwin_data_at.alcoholitem <- redwine_data
+i_feature_x <- redwine_data$sulphates
+i_feature_y  <- redwine_data$quality
+print_cor_value(redwin_data_at.alcoholitem,alcohol.level.item,
+                i_feature_x_name,i_feature_x,i_feature_y)
+for (alcohol.level.item in alcohol.level.list) {
+    redwin_data_at.alcoholitem <- subset(redwine_data,
+                 redwine_data$alcohol.level == alcohol.level.item)
+    
+    i_feature_x <- redwin_data_at.alcoholitem$sulphates
+    i_feature_y  <- redwin_data_at.alcoholitem$quality
+    
+    print_cor_value(redwin_data_at.alcoholitem,alcohol.level.item,
+                    i_feature_x_name,i_feature_x,i_feature_y)
+}
+```
+
+### Description Three
+
+On low alcohol percentage exellent wine quality rarely to be found mostly is 
+normal rating wine. 
+On medium-low alcohol percentage 75% of exellent wine can be found in
+total.sulfur.dioxide below 52 mg / dm^3 or volatile.acidity below 0.6 g/cm^3 
+but mostly are normal and good rating wine.  
+On mediumw alcohol percentage 75% of exellent wine can be found on :
+total.sulfur.dioxide below 45.75 mg / dm^3 or sulphate upper than 0.64 g/dm^3 
+and mostly are exellent and good rating wine.  
+
+
+
+------
+
+# Reflection
+
+```{r echo=FALSE}
+str(redwine_data)
+```
+
+The data set contain 1599 wine from 2009. I start by understand the variables in
+data set and try to interpret in term of sense that human can percieve. 
+Surprisingly, I found that the taste sourness and salty has no evidence that 
+they has influence over the quality of wine but the smell 
+(total sulfur dioxide), addictive content (alcohol), voilatile acidity, citric 
+acid and sulphates has influence over it. On low alcohol percentage we hardly 
+found excellent wine_rating but mostly is normal and you can find some of good 
+wine rating if they has total SO2 in range 5-60 and sulphates in range 0.53-0.73
+,On medium-low alcohol percentage wine exellent can be found on low volatile 
+acidity and total sulfur dioxide below 55 but mostly are normal and good rating 
+wine,On mediumw alcohol percentage wine exellent can be found at high percentage
+on total sulfur dioxide below 50 and sulphate upper than 0.65 and mostly are 
+exellent and good rating wine. I struggled to visulize multivariate plot 
+to clearly present the relation more than one featue against wine quality at 
+first finally I found out that if I create new varible that represent the 
+feature as group It will be easier,Next I can not clearly present the 
+relation of selected features by geom_point as you can see the correlation value
+ not so high for each feature but this become much better when I decide to 
+use histogram.
+
+Finally I am very enjoyed to make this analysis,It makes me more understand how
+to set the questions and solve them.
+
